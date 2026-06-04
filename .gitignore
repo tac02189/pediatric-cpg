@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+
+# Original source PDFs live in the project root; the app serves renamed copies
+# from public/pdfs/. Don't commit the duplicates (root-level only).
+/*.pdf
+
+# Local env / secrets (never commit)
+.env
+.env.*
+*.env
+*service-account*.json
+*-service-account.json
+firebase-adminsdk*.json
+secrets/
+
+# Firebase
+.firebase/
+firebase-debug.log
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.local
