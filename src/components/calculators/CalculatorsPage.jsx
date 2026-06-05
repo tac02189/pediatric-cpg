@@ -51,7 +51,7 @@ export default function CalculatorsPage() {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Find a score or drug, e.g. Westley, ketamine…"
-          className="focus-ring w-full rounded-xl2 border border-slate-200 bg-white py-3 pl-11 pr-4 text-[15px] shadow-card placeholder:text-slate-400"
+          className="focus-ring w-full rounded-xl2 border border-slate-200 bg-white py-3 pl-11 pr-4 text-base shadow-card placeholder:text-slate-400"
         />
       </div>
 

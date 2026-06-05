@@ -31,10 +31,10 @@ export default function DosingCalculator({ calc, ctx = {}, onPatientChange, show
 function DrugRow({ r }) {
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-3">
-      <div className="flex items-baseline justify-between gap-2">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-1">
         <span className="font-display text-[15px] font-bold text-slate-900">{r.name}</span>
         {r.route && (
-          <span className="shrink-0 rounded bg-slate-100 px-1.5 py-0.5 text-[11px] font-semibold text-slate-500">
+          <span className="max-w-full rounded bg-slate-100 px-1.5 py-0.5 text-[11px] font-semibold text-slate-500">
             {r.route}
           </span>
         )}

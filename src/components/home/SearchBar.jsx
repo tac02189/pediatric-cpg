@@ -16,7 +16,7 @@ export default function SearchBar({ value, onChange, resultCount }) {
         onChange={(e) => onChange(e.target.value)}
         placeholder="Search guidelines, e.g. stridor, RLQ pain, fever…"
         aria-label="Search guidelines"
-        className="focus-ring w-full rounded-xl2 border border-slate-200 bg-white py-3 pl-11 pr-10 text-[15px] text-slate-800 shadow-card placeholder:text-slate-400"
+        className="focus-ring w-full rounded-xl2 border border-slate-200 bg-white py-3 pl-11 pr-10 text-base text-slate-800 shadow-card placeholder:text-slate-400"
       />
       {value && (
         <button

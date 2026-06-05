@@ -46,7 +46,7 @@ function AdditiveItems({ calc, inputs, onInput }) {
                     key={oi}
                     type="button"
                     onClick={() => onInput(item.id, opt.value)}
-                    className={`focus-ring rounded-lg border px-2.5 py-1.5 text-left text-[13px] font-medium transition ${
+                    className={`focus-ring inline-flex min-h-[42px] items-center rounded-lg border px-3 py-2 text-left text-[13px] font-medium transition ${
                       on
                         ? "border-primary-600 bg-primary-600 text-white"
                         : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"

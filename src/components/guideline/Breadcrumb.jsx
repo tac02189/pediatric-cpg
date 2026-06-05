@@ -13,7 +13,8 @@ export default function Breadcrumb() {
   return (
     <nav
       aria-label="Steps taken"
-      className="sticky top-[57px] z-20 border-b border-slate-200 bg-slate-50/95 backdrop-blur"
+      style={{ top: "var(--app-header-h, 64px)" }}
+      className="sticky z-20 border-b border-slate-200 bg-slate-50/95 backdrop-blur"
     >
       <div className="mx-auto flex max-w-3xl items-center gap-1 overflow-x-auto px-3 py-2 text-xs">
         <button
