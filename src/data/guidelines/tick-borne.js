@@ -14,7 +14,7 @@ export default {
   version: "2026",
   lastEdited: "May 2026",
   authors: ["P Hunter", "A Padhye", "MB Bernardin"],
-  verified: false,
+  verified: true,
   disclaimer: "Transcribed from the official MU CPG. Always verify against the source PDF.",
 
   inclusion: ["Febrile illness with outdoor exposure or tick bite"],

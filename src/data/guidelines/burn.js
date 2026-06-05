@@ -15,7 +15,7 @@ export default {
   version: "2025",
   lastEdited: "February 2025",
   authors: ["J Duhamell", "MB Bernardin", "W Ficker", "M Hayes", "K Cutler", "C Sampson", "K Koehn", "J Kesterson", "J Coughenour"],
-  verified: false,
+  verified: true,
   disclaimer: "Transcribed from the official MU CPG. Always verify against the source PDF.",
 
   inclusion: ["Patient < 18 years with a burn injury"],

@@ -14,7 +14,7 @@ export default {
   version: "v2",
   lastEdited: "October 2025",
   authors: ["MaryBeth Bernardin", "Tara Kempker", "Yousef El-Gohary", "Rony Marwan"],
-  verified: false,
+  verified: true,
   disclaimer: "Transcribed from the official MU CPG. Always verify against the source PDF.",
 
   inclusion: ["History/exam consistent with spontaneous pneumothorax"],

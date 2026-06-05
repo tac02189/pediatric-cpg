@@ -14,7 +14,7 @@ export default {
   version: "2025",
   lastEdited: "November 2025",
   authors: ["MB Bernardin", "M Hayes", "K Cutler", "R Marwan"],
-  verified: false,
+  verified: true,
   disclaimer: "Transcribed from the official MU CPG. Always verify against the source PDF.",
 
   inclusion: ["History/exam concerning for ileocolic intussusception"],

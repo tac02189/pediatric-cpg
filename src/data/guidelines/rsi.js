@@ -28,7 +28,7 @@ export default {
   version: "2025",
   lastEdited: "October 2025",
   authors: ["MB Bernardin", "W Ficker", "M Hayes", "K Cutler", "K Goddard", "M Gaul", "D. Lopez-Domowicz"],
-  verified: false,
+  verified: true,
   disclaimer: "Transcribed from the official MU CPG. Always verify against the source PDF.",
 
   inclusion: [

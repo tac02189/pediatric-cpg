@@ -16,7 +16,7 @@ export default {
   version: "2026",
   lastEdited: "April 2026",
   authors: ["MB Bernardin", "W Ficker", "M Hayes", "K Hiedbrink", "D Lopez-Domowicz", "H Monroe", "K Koehn", "J Kesterson"],
-  verified: false,
+  verified: true,
   disclaimer: "Transcribed from the official MU CPG. Always verify against the source PDF. Does not replace mandated-reporter obligations or institutional policy.",
 
   inclusion: [

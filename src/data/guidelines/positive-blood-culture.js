@@ -14,7 +14,7 @@ export default {
   version: "2026",
   lastEdited: "January 2026",
   authors: ["MB Bernardin", "A Padhye"],
-  verified: false,
+  verified: true,
   disclaimer: "Transcribed from the official MU CPG. Always verify against the source PDF.",
 
   inclusion: ["All ED patients < 18 years (including neonates) with a positive blood culture"],

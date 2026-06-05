@@ -14,7 +14,7 @@ export default {
   version: "2025",
   lastEdited: "February 2025",
   authors: ["MB Bernardin", "A Padhye", "R Marwan", "W Ficker", "K Koehn", "J Kesterson"],
-  verified: false,
+  verified: true,
   disclaimer: "Transcribed from the official MU CPG. Always verify against the source PDF.",
 
   inclusion: ["History/exam concerning for skin/soft tissue infection"],

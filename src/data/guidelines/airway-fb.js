@@ -14,7 +14,7 @@ export default {
   version: "2025",
   lastEdited: "January 2025",
   authors: ["MB Bernardin", "S Early", "E Gov-Ari", "R Nevel", "Z Ner"],
-  verified: false,
+  verified: true,
   disclaimer: "Transcribed from the official MU CPG. Always verify against the source PDF.",
 
   inclusion: ["History/exam concerning for an airway foreign body"],

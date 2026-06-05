@@ -49,7 +49,7 @@ export default {
     "K Cutler",
     "MB Bernardin",
   ],
-  verified: false,
+  verified: true,
   disclaimer: "Transcribed from the official MU CPG. Always verify against the source PDF.",
 
   inclusion: ["6 months – 6 years old", "Otherwise well appearing", "Clinical diagnosis of croup"],

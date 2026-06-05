@@ -15,7 +15,7 @@ export default {
   version: "2025",
   lastEdited: "February 2025",
   authors: ["MB Bernardin", "R Marwan"],
-  verified: false,
+  verified: true,
   disclaimer: "Transcribed from the official MU CPG. Always verify against the source PDF.",
 
   inclusion: ["Child with a dislodged G/GJ/J tube"],

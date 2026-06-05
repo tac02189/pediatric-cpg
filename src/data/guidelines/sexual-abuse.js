@@ -15,7 +15,7 @@ export default {
   version: "2025",
   lastEdited: "January 2025",
   authors: ["M. Bernardin", "K. Cutler", "W. Ficker", "M. Hayes", "G. Koburov", "H. Monroe", "A. Padhye", "J. Butterfield"],
-  verified: false,
+  verified: true,
   disclaimer: "Transcribed from the official MU CPG. Always verify against the source PDF. Does not replace mandated-reporter obligations or institutional policy.",
 
   inclusion: ["Patient < 14 years with concern for sexual abuse/assault"],

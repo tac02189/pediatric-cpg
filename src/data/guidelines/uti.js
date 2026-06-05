@@ -15,7 +15,7 @@ export default {
   version: "2026",
   lastEdited: "April 2026",
   authors: ["MB Bernardin", "A Padhye", "J Kesterson"],
-  verified: false,
+  verified: true,
   disclaimer: "Transcribed from the official MU CPG. Always verify against the source PDF.",
 
   inclusion: ["Clinical concern for UTI / pyelonephritis"],
