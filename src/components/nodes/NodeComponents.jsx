@@ -336,7 +336,11 @@ export function OutcomeNode({ node, guideline }) {
           <Icon name="RotateCcw" size={16} />
           Start over
         </button>
-        <PdfButton sourcePdf={guideline.sourcePdf} variant="outline" />
+        <PdfButton
+          sourcePdf={guideline.sourcePdf}
+          title={guideline.fullTitle || guideline.title}
+          variant="outline"
+        />
       </div>
     </div>
   );

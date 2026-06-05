@@ -51,7 +51,12 @@ export default function GuidelineCalculatorsPage() {
       )}
 
       <div className="mt-6">
-        <PdfButton sourcePdf={guideline.sourcePdf} variant="outline" label="Official PDF" />
+        <PdfButton
+          sourcePdf={guideline.sourcePdf}
+          title={guideline.fullTitle || guideline.title}
+          variant="outline"
+          label="Official PDF"
+        />
       </div>
     </div>
   );

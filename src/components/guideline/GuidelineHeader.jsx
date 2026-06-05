@@ -42,7 +42,11 @@ export default function GuidelineHeader({ guideline }) {
         </div>
 
         <div className="mt-3 flex flex-wrap gap-2">
-          <PdfButton sourcePdf={guideline.sourcePdf} variant="outline" />
+          <PdfButton
+            sourcePdf={guideline.sourcePdf}
+            title={guideline.fullTitle || guideline.title}
+            variant="outline"
+          />
           <Link
             to={`/guideline/${guideline.id}/calculators`}
             className="focus-ring tap-target inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
