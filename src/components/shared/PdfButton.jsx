@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Icon } from "../../lib/icons.jsx";
+import PdfCanvasViewer from "./PdfCanvasViewer.jsx";
 
 // Opens the official source PDF in a full-screen in-app overlay. This keeps the
 // clinician inside the app (preserving their place in the workflow underneath)
@@ -40,7 +41,6 @@ export default function PdfButton({
 }
 
 function PdfOverlay({ href, title, onClose }) {
-  const [loading, setLoading] = useState(true);
   const pushedRef = useRef(false);
 
   useEffect(() => {
@@ -59,10 +59,8 @@ function PdfOverlay({ href, title, onClose }) {
     };
     window.addEventListener("popstate", onPop);
     window.addEventListener("keydown", onKey);
-    const safety = setTimeout(() => setLoading(false), 6000);
 
     return () => {
-      clearTimeout(safety);
       window.removeEventListener("popstate", onPop);
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = prevOverflow;
@@ -115,18 +113,8 @@ function PdfOverlay({ href, title, onClose }) {
         </a>
       </div>
 
-      <div className="relative flex-1 bg-white">
-        {loading && (
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center text-sm text-slate-400">
-            Loading PDF…
-          </div>
-        )}
-        <iframe
-          src={href}
-          title={title}
-          onLoad={() => setLoading(false)}
-          className="h-full w-full border-0"
-        />
+      <div className="min-h-0 flex-1">
+        <PdfCanvasViewer href={href} />
       </div>
     </div>,
     document.body

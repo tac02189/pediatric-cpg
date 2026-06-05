@@ -34,7 +34,7 @@ export default defineConfig({
       },
       workbox: {
         // Cache the app shell + the source guideline PDFs for offline bedside use.
-        globPatterns: ["**/*.{js,css,html,svg,png,woff2}"],
+        globPatterns: ["**/*.{js,mjs,css,html,svg,png,woff2}"],
         // og-image is only fetched by external link-unfurlers — no need to
         // precache it into every user's offline cache.
         globIgnores: ["og-image.png"],
