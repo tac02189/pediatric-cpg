@@ -35,9 +35,11 @@
     @apply min-h-[44px] select-none;
   }
 
-  /* Sticky action bar pinned to the bottom of the workflow, above the home indicator. */
+  /* Sticky action bar pinned to the bottom of the workflow. Sit right above the
+     iOS home indicator (the safe-area inset) with only a small minimum pad on
+     devices without one — not an additional 0.75rem on top of the inset. */
   .sticky-bottom-bar {
-    padding-bottom: calc(0.75rem + var(--safe-bottom));
+    padding-bottom: max(0.5rem, var(--safe-bottom));
   }
 
   .focus-ring {

@@ -29,7 +29,10 @@ export default function WorkflowPlayer({ guideline }) {
   return (
     <WorkflowContext.Provider value={value}>
       <Breadcrumb />
-      <div className="mx-auto max-w-3xl px-4 pb-28 pt-4">
+      <div
+        className="mx-auto max-w-3xl px-4 pt-4"
+        style={{ paddingBottom: "calc(var(--app-backbar-h, 5.5rem) + 0.75rem)" }}
+      >
         <NodeRenderer node={node} guideline={guideline} />
         <ReferencesAccordion guideline={guideline} />
       </div>
