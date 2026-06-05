@@ -10,22 +10,22 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["favicon.svg", "apple-touch-icon.png"],
+      includeAssets: ["favicon-16.png", "favicon-32.png", "apple-touch-icon.png"],
       manifest: {
         name: "Pediatric Clinical Practice Guidelines",
         short_name: "Peds CPG",
         description:
           "University of Missouri Pediatric Service Line clinical practice guidelines as guided, tap-through workflows.",
-        theme_color: "#0f766e",
-        background_color: "#f8fafc",
+        theme_color: "#1a1a1a",
+        background_color: "#000000",
         display: "standalone",
         orientation: "portrait",
         start_url: "/",
         icons: [
-          { src: "pwa-192.png", sizes: "192x192", type: "image/png" },
-          { src: "pwa-512.png", sizes: "512x512", type: "image/png" },
+          { src: "pwa-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+          { src: "pwa-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
           {
-            src: "pwa-512.png",
+            src: "pwa-maskable-512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "maskable",
@@ -35,6 +35,9 @@ export default defineConfig({
       workbox: {
         // Cache the app shell + the source guideline PDFs for offline bedside use.
         globPatterns: ["**/*.{js,css,html,svg,png,woff2}"],
+        // og-image is only fetched by external link-unfurlers — no need to
+        // precache it into every user's offline cache.
+        globIgnores: ["og-image.png"],
         // PDFs can exceed the default 2 MiB precache limit; bump it.
         maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
         runtimeCaching: [
