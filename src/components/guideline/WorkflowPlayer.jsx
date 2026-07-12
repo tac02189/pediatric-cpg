@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import { workflowReducer, initWorkflowState } from "../../engine/workflowReducer.js";
 import { WorkflowContext } from "./workflowContext.js";
 import NodeRenderer from "./NodeRenderer.jsx";
@@ -10,6 +10,18 @@ import ReferencesAccordion from "./ReferencesAccordion.jsx";
 // node components via context. Generic — never references a specific guideline.
 export default function WorkflowPlayer({ guideline }) {
   const [state, dispatch] = useReducer(workflowReducer, guideline, initWorkflowState);
+
+  // Moving forward to a new step (or restarting) jumps back to the top, so each
+  // step starts at its beginning instead of wherever the previous step's button
+  // was. Going back preserves scroll position.
+  const prevSteps = useRef(state.history.length);
+  useEffect(() => {
+    const steps = state.history.length;
+    const movedForward = steps > prevSteps.current;
+    const restarted = steps === 0 && prevSteps.current > 0;
+    prevSteps.current = steps;
+    if (movedForward || restarted) window.scrollTo(0, 0);
+  }, [state.currentNodeId, state.history.length]);
 
   const value = {
     guideline,
