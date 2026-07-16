@@ -40,11 +40,12 @@ export default {
         const total = Math.round(4 * w * t);
         const half = Math.round(total / 2);
         const rate8 = Math.round(half / 8);
+        const rate16 = Math.round(half / 16);
         return {
           complete: true,
           groupId: "done",
           label: `${total} mL LR over 24 h`,
-          detail: `½ (${half} mL) in the first 8 hours ≈ ${rate8} mL/hr; give the remainder per the source schedule. Titrate to urine output (0.5–1 mL/kg/hr if < 30 kg; 1–2 mL/kg/hr if > 30 kg). Verify the infusion split against the source PDF.`,
+          detail: `½ (${half} mL) over the first 8 hours ≈ ${rate8} mL/hr, then the remaining ½ (${half} mL) over the next 16 hours ≈ ${rate16} mL/hr. Titrate to urine output (0.5–1 mL/kg/hr if < 30 kg; 1–2 mL/kg/hr if > 30 kg).`,
         };
       },
     },
@@ -92,7 +93,7 @@ export default {
     parklandNote: {
       tone: "info",
       title: "Modified Parkland fluid",
-      body: "4 mL LR × kg × %TBSA over 24 h (½ in the first 8 h). Use the Parkland calculator (Calculators tab) and titrate to urine output.",
+      body: "4 mL LR × kg × %TBSA over 24 h — give ½ over the first 8 h, then the remaining ½ over the next 16 h. Use the Parkland calculator (Calculators tab) and titrate to urine output.",
     },
   },
 
@@ -102,7 +103,7 @@ export default {
     e: "Cyanide poisoning must be treated before the quantitative level returns. Consider hydroxocobalamin (Cyanokit) 70 mg/kg IV for: fire in a contained area needing CPR and/or intubation, or altered mental status, abnormal vitals, evidence of hypoxic injury, and severe metabolic acidosis (elevated lactate).",
     f: "Cool running water over burns for ≥ 20 minutes within 3 hours of injury reduces full-thickness depth, admissions, and operative needs. Consider in hemodynamically stable patients with close temperature monitoring.",
     g: "Estimate Total Body Surface Area (TBSA) and burn depth using a Lund-Browder chart (see source PDF).",
-    i: "Modified Parkland: 4 mL LR × kg × %TBSA = total mL over 24 hours; give ½ in the first eight hours. Titrate to urine output (0.5–1 mL/kg/hr if < 30 kg; 1–2 mL/kg/hr if > 30 kg). Maintenance fluids with dextrose if < 20 kg.",
+    i: "Modified Parkland: 4 mL LR × kg × %TBSA = total mL over 24 hours; give ½ over the first eight hours, then the remaining ½ over the next 16 hours. Titrate to urine output (0.5–1 mL/kg/hr if < 30 kg; 1–2 mL/kg/hr if > 30 kg). Maintenance fluids with dextrose if < 20 kg.",
     j: "Tetanus: TIG if < 3 doses of DTaP or unsure of status. Booster if no tetanus vaccine in the last 5 years (DTaP if < 7 yr, Tdap if > 7 yr).",
     l: "Deroof blisters with sterile technique: small cut and drain fluid, cut away epidermis near the base, stay away from the base/floor.",
     n: "Admission location is case-by-case. ACS generally admits to the ACS service for pain control and/or wound care. For extensive burns or admission primarily for abuse concerns, consider transfer to the Children's Mercy pediatric burn unit (Kansas City).",
