@@ -39,6 +39,11 @@ export default {
         "St. Louis Children's Hospital: 1-800-678-HELP",
       ],
     },
+    lowConcernWorkup: {
+      tone: "info",
+      title: "Low-concern option (< 2 years)",
+      body: "If low concern for abuse (e.g. a single injury with a plausible accidental mechanism but social concerns, or historical/social concerns without an identified injury), obtaining only a skeletal survey in children < 2 years with no further work-up may be considered. If occult injuries are found on the skeletal survey, further NAT work-up (based on patient age) is needed.",
+    },
     powerplan: {
       tone: "info",
       title: "PowerPlan",
@@ -112,7 +117,7 @@ export default {
       type: "start",
       title: "Non-Accidental Trauma Evaluation",
       body: "For the child (0–5 years) with history and/or physical exam concerning for NAT.",
-      calloutIds: ["mandatedReporting", "referralCenters"],
+      calloutIds: ["mandatedReporting", "referralCenters", "lowConcernWorkup"],
       footnoteRefs: ["b", "c"],
       next: "addressLifeThreats",
     },

@@ -61,6 +61,7 @@ export default {
         "Respiratory distress",
         "Decreased level of consciousness with loss of protective reflexes",
         "Significant risk of airway edema (consider ENT for fiberoptic laryngoscopy if unsure)",
+        "Singed facial hair with suspected smoke inhalation — consider intubation per ABA criteria (not sensitive for necessary intubation alone)",
       ],
     },
     burnLabs: {

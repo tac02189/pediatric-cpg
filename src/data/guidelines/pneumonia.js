@@ -133,9 +133,9 @@ export default {
       type: "outcome",
       title: "Admit to floor",
       body: [
-        "IV access, labs",
+        "Consider IV access, labs",
         "Continuous O₂ monitoring",
-        "IV ampicillin ± azithromycin based on risk factors",
+        "IV ampicillin or PO amoxicillin ± azithromycin based on risk factors",
       ],
       disposition: "admit-floor",
       tone: "warning",
@@ -147,9 +147,9 @@ export default {
       type: "outcome",
       title: "Admit to floor",
       body: [
-        "Consider IV access, labs",
+        "IV access, labs",
         "Continuous O₂ monitoring",
-        "IV ampicillin or PO amoxicillin ± azithromycin based on risk factors",
+        "IV ampicillin ± azithromycin based on risk factors",
       ],
       disposition: "admit-floor",
       tone: "warning",
