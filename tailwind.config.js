@@ -2,7 +2,7 @@
 
 // Category accent palettes are applied dynamically (one per clinical category),
 // so the exact utility classes must be safelisted or Tailwind's purge will drop them.
-const accentColors = ["sky", "amber", "emerald", "rose", "violet"];
+const accentColors = ["sky", "amber", "emerald", "rose", "violet", "indigo"];
 const accentShades = {
   bg: [50, 100, 500, 600],
   text: [600, 700, 800],

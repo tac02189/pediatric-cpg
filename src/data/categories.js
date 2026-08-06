@@ -32,6 +32,13 @@ export const CATEGORIES = [
     blurb: "Resuscitation, intubation, and burns",
   },
   {
+    id: "endocrine-metabolic",
+    label: "Endocrine & Metabolic",
+    icon: "Droplet",
+    accent: "indigo",
+    blurb: "Diabetes, glucose, and metabolic emergencies",
+  },
+  {
     id: "child-protection",
     label: "Child Protection",
     icon: "ShieldAlert",
