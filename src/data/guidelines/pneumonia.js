@@ -62,7 +62,10 @@ export default {
     criticallyIll: {
       id: "criticallyIll",
       type: "decision",
-      title: "Critically ill, or requiring > 20 L/kg (or 15 L) HFNC and/or 50% FiO₂?",
+      // Intentional deviation from the printed PDF ("> 20L/kg (or 15L)"), per
+      // physician decision 2026-09: the source's units are a typo. Do not
+      // "correct" this back to match the PDF in a faithfulness audit.
+      title: "Critically ill, or requiring > 2.0 L/kg/min (max 20 L) HFNC and/or 50% FiO₂?",
       branches: [
         { label: "Yes", next: "picu", tone: "danger" },
         { label: "No", next: "complicated" },
