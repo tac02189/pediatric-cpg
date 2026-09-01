@@ -1,4 +1,4 @@
-// Pediatric Ileocolic Intussusception — MU Pediatric Service Line CPG (Nov 2025).
+// Pediatric Ileocolic Intussusception — MU Pediatric Service Line CPG (Aug 2026).
 // Transcribed from intussusception.pdf. Peritonitis and US pathways converge on
 // the reduction workflow; computed pre-op antibiotic dosing.
 
@@ -11,8 +11,8 @@ export default {
   keywords: ["intussusception", "ileocolic", "abdominal pain", "currant jelly", "enema", "sausage mass", "reduction"],
   shortDescription: "Peritonitis triage, ultrasound, and enema-reduction pathway for ileocolic intussusception.",
   sourcePdf: "intussusception.pdf",
-  version: "2025",
-  lastEdited: "November 2025",
+  version: "2026",
+  lastEdited: "August 2026",
   authors: ["MB Bernardin", "M Hayes", "K Cutler", "R Marwan"],
   verified: true,
   disclaimer: "Transcribed from the official MU CPG. Always verify against the source PDF.",
@@ -141,7 +141,13 @@ export default {
       id: "enemaWorkup",
       type: "action",
       title: "Reduction work-up",
-      items: ["Consult pediatric surgery", "Consult radiology", "NPO", "IV access", "Air/contrast enema"],
+      items: [
+        "Consult pediatric surgery",
+        "Consult radiology",
+        "NPO",
+        "IV access",
+        'XR abdomen and air enema for reduction (order "XR Abdomen" and "XR Intussusception")',
+      ],
       next: "successfulReduction",
     },
     successfulReduction: {

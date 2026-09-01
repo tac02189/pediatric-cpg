@@ -1,4 +1,4 @@
-// Pediatric Community-Acquired Pneumonia — MU Pediatric Service Line CPG (Feb 2025).
+// Pediatric Community-Acquired Pneumonia — MU Pediatric Service Line CPG (Aug 2026).
 // Transcribed from pneumonia.pdf. A severity cascade into five dispositions;
 // antibiotic dosing deferred to the EHR PowerPlan.
 
@@ -11,8 +11,8 @@ export default {
   keywords: ["pneumonia", "cap", "community acquired pneumonia", "amoxicillin", "ceftriaxone", "effusion", "empyema", "lung"],
   shortDescription: "Severity-based admission and antibiotic pathway for pediatric CAP.",
   sourcePdf: "pneumonia.pdf",
-  version: "2025",
-  lastEdited: "February 2025",
+  version: "2026",
+  lastEdited: "August 2026",
   authors: ["MB Bernardin", "A Padhye", "R Marwan", "W Ficker", "L Smith", "K Koehn", "J Kesterson"],
   verified: true,
   disclaimer: "Transcribed from the official MU CPG. Always verify against the source PDF.",
@@ -62,7 +62,7 @@ export default {
     criticallyIll: {
       id: "criticallyIll",
       type: "decision",
-      title: "Critically ill, or requiring > 15 L/kg (or 15 L) HFNC and/or 50% FiO₂?",
+      title: "Critically ill, or requiring > 20 L/kg (or 15 L) HFNC and/or 50% FiO₂?",
       branches: [
         { label: "Yes", next: "picu", tone: "danger" },
         { label: "No", next: "complicated" },

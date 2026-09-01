@@ -1,4 +1,4 @@
-// Pediatric Rapid Sequence Intubation — MU Pediatric Service Line CPG (Oct 2025).
+// Pediatric Rapid Sequence Intubation — MU Pediatric Service Line CPG (Aug 2026).
 // Transcribed from rsi.pdf. The most complex guideline: linear prep checklists,
 // two nested sedation decision trees, an age-indexed equipment lookup table,
 // paralytic + infusion reference tables, computed induction/atropine dosing, and
@@ -25,8 +25,8 @@ export default {
   ],
   shortDescription: "Full RSI pathway: prep, sedation/paralytic choice, intubation, post-intubation sedation.",
   sourcePdf: "rsi.pdf",
-  version: "2025",
-  lastEdited: "October 2025",
+  version: "2026",
+  lastEdited: "August 2026",
   authors: ["MB Bernardin", "W Ficker", "M Hayes", "K Cutler", "K Goddard", "M Gaul", "D. Lopez-Domowicz"],
   verified: true,
   disclaimer: "Transcribed from the official MU CPG. Always verify against the source PDF.",
@@ -97,11 +97,6 @@ export default {
       title: "Fentanyl caution",
       body: "Give over 30–60 seconds to avoid chest wall rigidity.",
     },
-    infusionUnits: {
-      tone: "warning",
-      title: "Verify propofol infusion units",
-      body: "Propofol units below mirror the source PDF (mg/kg/min). Standard propofol infusions are dosed in mcg/kg/min — confirm with pharmacy and the source document before ordering.",
-    },
   },
 
   footnotes: {
@@ -114,6 +109,14 @@ export default {
       "TOF 0–1: 4 mg/kg",
       "TOF 1–3: 2 mg/kg",
       "TOF 4 and high risk: 2 mg/kg",
+    ],
+    j: [
+      "EM Resident Participation in Pediatric Endotracheal Intubation policy — general principles:",
+      "Pediatric airway management is a critical competency for emergency physicians. Because pediatric intubations are uncommon yet potentially lifesaving, residents should be afforded meaningful opportunities to perform them under supervision. Resident participation is expected and encouraged whenever clinically appropriate.",
+      "The presence of PEM faculty, EM faculty, anesthesia, NICU, critical care transport, or other airway experts should enhance resident education rather than routinely replace resident involvement. Educational opportunities should be maximized whenever patient condition and clinical circumstances permit.",
+      "The attending physician directing the resuscitation maintains ultimate authority over airway management decisions and resident participation. Patient safety remains the primary consideration.",
+      "Eligibility: residents may perform pediatric endotracheal intubation under direct attending supervision when the attending determines participation is appropriate, necessary personnel/equipment/backup airway resources are immediately available, and the patient's condition allows supervised attempts without unacceptable risk.",
+      "The PEM/EM attending may limit or defer resident participation based on severity of physiologic instability and/or need for immediate first-pass success, or high-risk populations (i.e. premature infants < 30 weeks EGA).",
     ],
   },
 
@@ -349,6 +352,7 @@ export default {
         "Give sedative followed by paralytic in rapid succession",
         "Limit laryngoscopy to < 30 seconds/attempt; maintain O₂ sat ≥ 92%",
       ],
+      footnoteRefs: ["j"],
       next: "intubationSuccess",
     },
     intubationSuccess: {
@@ -491,8 +495,7 @@ export default {
       id: "infusionDosing",
       type: "lookup",
       title: "Sedative / analgesic infusion dosing",
-      body: "Verify infusion units against the source PDF before ordering.",
-      calloutIds: ["infusionUnits"],
+      body: "Titrate every 30 minutes as needed.",
       table: {
         columns: ["Drug", "Starting dose", "Titrate q30 min", "Max dosing", "Comments"],
         rows: [
@@ -520,9 +523,9 @@ export default {
           ],
           [
             "Propofol",
-            "Load 1–2 mg/kg, max 50 mg (20–100 mg/kg/min)",
-            "5–10 mg/kg/min",
-            "250 mg/kg/min",
+            "Load 1–2 mg/kg, max 50 mg (20–100 mcg/kg/min)",
+            "5–10 mcg/kg/min",
+            "250 mcg/kg/min",
             "↓BP, Propofol Infusion Syndrome, no analgesia. CI: egg/soy allergy, ketogenic diet",
           ],
         ],
