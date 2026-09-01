@@ -10,12 +10,19 @@ import PdfCanvasViewer from "./PdfCanvasViewer.jsx";
 export default function PdfButton({
   sourcePdf,
   title,
+  version,
   variant = "ghost",
   label = "Official PDF",
   className = "",
 }) {
   const [open, setOpen] = useState(false);
-  const href = `${import.meta.env.BASE_URL}pdfs/${sourcePdf}`;
+  // The service worker caches /pdfs/ CacheFirst for offline bedside use, keyed
+  // by full URL — so a replaced PDF must change its URL or installed clients
+  // keep the stale copy for up to 90 days. `version` (the guideline's
+  // lastEdited) busts that cache exactly when the source document changes.
+  const href = `${import.meta.env.BASE_URL}pdfs/${sourcePdf}${
+    version ? `?v=${encodeURIComponent(version)}` : ""
+  }`;
   const styles =
     variant === "solid"
       ? "bg-primary-600 text-white hover:bg-primary-700"

@@ -339,6 +339,7 @@ export function OutcomeNode({ node, guideline }) {
         <PdfButton
           sourcePdf={guideline.sourcePdf}
           title={guideline.fullTitle || guideline.title}
+          version={guideline.lastEdited}
           variant="outline"
         />
       </div>

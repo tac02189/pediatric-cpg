@@ -45,6 +45,7 @@ export default function GuidelineHeader({ guideline }) {
           <PdfButton
             sourcePdf={guideline.sourcePdf}
             title={guideline.fullTitle || guideline.title}
+            version={guideline.lastEdited}
             variant="outline"
           />
           <Link

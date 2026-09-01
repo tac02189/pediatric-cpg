@@ -54,6 +54,7 @@ export default function GuidelineCalculatorsPage() {
         <PdfButton
           sourcePdf={guideline.sourcePdf}
           title={guideline.fullTitle || guideline.title}
+          version={guideline.lastEdited}
           variant="outline"
           label="Official PDF"
         />
