@@ -62,13 +62,13 @@ export default {
     criticallyIll: {
       id: "criticallyIll",
       type: "decision",
-      // The September 2026 PDF fixed the old "> 20L/kg (or 15L)" typo and now
-      // prints "> 2L/kg (or 20L)" — numerically matching the physician-set
-      // threshold. The display keeps the physician's explicit rate units
-      // ("L/kg/min", 2026-09 decision), which the PDF still abbreviates away.
-      // Do not flatten this to the PDF's unitless "2 L/kg" without physician
-      // sign-off (Codex review 2026-09-02, P1: ambiguous clinical units).
-      title: "Critically ill, or requiring > 2.0 L/kg/min (max 20 L) HFNC and/or 50% FiO₂?",
+      // The HFNC threshold clause is verbatim from the September 2026 PDF,
+      // which fixed the old "> 20L/kg (or 15L)" typo at the source. The PDF
+      // abbreviates the HFNC rate without "/min"; that units question was
+      // raised (Codex review 2026-09-02, P1) and the physician reviewed it and
+      // chose the PDF's verbatim phrasing (2026-09-02). Do not re-add
+      // "/min"/"max" or revisit without a new physician decision.
+      title: "Critically ill, or requiring > 2 L/kg (or 20 L) HFNC and/or 50% FiO₂?",
       branches: [
         { label: "Yes", next: "picu", tone: "danger" },
         { label: "No", next: "complicated" },
