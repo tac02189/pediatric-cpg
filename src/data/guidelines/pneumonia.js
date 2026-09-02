@@ -1,4 +1,4 @@
-// Pediatric Community-Acquired Pneumonia — MU Pediatric Service Line CPG (Aug 2026).
+// Pediatric Community-Acquired Pneumonia — MU Pediatric Service Line CPG (Sep 2026).
 // Transcribed from pneumonia.pdf. A severity cascade into five dispositions;
 // antibiotic dosing deferred to the EHR PowerPlan.
 
@@ -12,7 +12,7 @@ export default {
   shortDescription: "Severity-based admission and antibiotic pathway for pediatric CAP.",
   sourcePdf: "pneumonia.pdf",
   version: "2026",
-  lastEdited: "August 2026",
+  lastEdited: "September 2026",
   authors: ["MB Bernardin", "A Padhye", "R Marwan", "W Ficker", "L Smith", "K Koehn", "J Kesterson"],
   verified: true,
   disclaimer: "Transcribed from the official MU CPG. Always verify against the source PDF.",
@@ -62,9 +62,12 @@ export default {
     criticallyIll: {
       id: "criticallyIll",
       type: "decision",
-      // Intentional deviation from the printed PDF ("> 20L/kg (or 15L)"), per
-      // physician decision 2026-09: the source's units are a typo. Do not
-      // "correct" this back to match the PDF in a faithfulness audit.
+      // The September 2026 PDF fixed the old "> 20L/kg (or 15L)" typo and now
+      // prints "> 2L/kg (or 20L)" — numerically matching the physician-set
+      // threshold. The display keeps the physician's explicit rate units
+      // ("L/kg/min", 2026-09 decision), which the PDF still abbreviates away.
+      // Do not flatten this to the PDF's unitless "2 L/kg" without physician
+      // sign-off (Codex review 2026-09-02, P1: ambiguous clinical units).
       title: "Critically ill, or requiring > 2.0 L/kg/min (max 20 L) HFNC and/or 50% FiO₂?",
       branches: [
         { label: "Yes", next: "picu", tone: "danger" },
