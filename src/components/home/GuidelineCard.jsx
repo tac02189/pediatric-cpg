@@ -2,25 +2,28 @@ import { Link } from "react-router-dom";
 import { Icon } from "../../lib/icons.jsx";
 import { getCategory, accentClasses } from "../../data/categories.js";
 
+// One guideline as a full-width row. Rows are meant to sit inside a
+// <GuidelineList> group (hairline dividers, one border around the group) —
+// decoration lives on the group, not on each row.
 export default function GuidelineCard({ guideline, showCategory = false }) {
   const cat = getCategory(guideline.category);
-  const accent = cat?.accent || "sky";
-  const a = accentClasses(accent);
+  const a = accentClasses(cat?.accent || "sky");
 
   return (
     <Link
       to={`/guideline/${guideline.id}`}
-      className={`group relative flex items-center gap-3.5 rounded-xl2 border bg-white p-3.5 shadow-card transition hover:shadow-card-hover ${a.border} ${a.borderHover} focus-ring`}
+      className="focus-ring-inset group flex min-h-[68px] items-center gap-3 bg-white px-3.5 py-3 transition hover:bg-slate-50"
     >
-      <span
-        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${a.bgChip} ${a.text}`}
-      >
-        <Icon name={guideline.icon} size={22} strokeWidth={2.1} />
-      </span>
+      <Icon
+        name={guideline.icon}
+        size={19}
+        strokeWidth={2}
+        className="shrink-0 text-slate-400"
+      />
 
       <span className="min-w-0 flex-1">
         <span className="flex items-center gap-2">
-          <span className="font-display text-[15px] font-bold text-slate-900">
+          <span className="text-[15px] font-bold leading-snug text-slate-900">
             {guideline.title}
           </span>
           {!guideline.verified && (
@@ -29,7 +32,7 @@ export default function GuidelineCard({ guideline, showCategory = false }) {
             </span>
           )}
         </span>
-        <span className="mt-0.5 block truncate text-[13px] text-slate-500">
+        <span className="mt-0.5 line-clamp-2 text-[13px] leading-snug text-slate-500">
           {guideline.shortDescription}
         </span>
         {showCategory && cat && (
@@ -41,9 +44,18 @@ export default function GuidelineCard({ guideline, showCategory = false }) {
 
       <Icon
         name="ChevronRight"
-        size={18}
+        size={17}
         className="shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-slate-400"
       />
     </Link>
+  );
+}
+
+// The bordered group the rows sit in.
+export function GuidelineList({ children }) {
+  return (
+    <div className="divide-y divide-slate-100 overflow-hidden rounded-lg border border-slate-200 bg-white">
+      {children}
+    </div>
   );
 }

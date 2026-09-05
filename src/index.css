@@ -45,4 +45,10 @@
   .focus-ring {
     @apply outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2;
   }
+
+  /* For flush rows inside an overflow-hidden group, where the offset ring of
+     .focus-ring would be clipped at the group's edges. */
+  .focus-ring-inset {
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary-400;
+  }
 }

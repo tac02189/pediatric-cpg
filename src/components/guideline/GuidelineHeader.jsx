@@ -18,26 +18,21 @@ export default function GuidelineHeader({ guideline }) {
           All guidelines
         </Link>
 
-        <div className="flex items-start gap-3">
-          <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${a.bgChip} ${a.text}`}>
-            <Icon name={guideline.icon} size={23} strokeWidth={2.1} />
-          </span>
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2">
-              <h1 className="font-display text-xl font-extrabold leading-tight text-slate-900">
-                {guideline.fullTitle || guideline.title}
-              </h1>
-              {!guideline.verified && (
-                <span className="shrink-0 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-700">
-                  Draft
-                </span>
-              )}
-            </div>
-            <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-500">
-              {cat && <span className={`font-semibold ${a.text}`}>{cat.label}</span>}
-              {guideline.version && <span>· {guideline.version}</span>}
-              {guideline.lastEdited && <span>· Edited {guideline.lastEdited}</span>}
-            </div>
+        <div className="min-w-0">
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold leading-tight text-slate-900">
+              {guideline.fullTitle || guideline.title}
+            </h1>
+            {!guideline.verified && (
+              <span className="shrink-0 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-700">
+                Draft
+              </span>
+            )}
+          </div>
+          <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-500">
+            {cat && <span className={`font-semibold ${a.text}`}>{cat.label}</span>}
+            {guideline.version && <span>· {guideline.version}</span>}
+            {guideline.lastEdited && <span>· Edited {guideline.lastEdited}</span>}
           </div>
         </div>
 

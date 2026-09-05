@@ -30,11 +30,11 @@ export default function Header() {
   return (
     <header
       ref={ref}
-      className="sticky top-0 z-30 border-b-4 border-brand-gold bg-brand-black/95 backdrop-blur supports-[backdrop-filter]:bg-brand-black/85"
+      className="sticky top-0 z-30 border-b-2 border-brand-gold bg-black"
     >
       <div className="mx-auto flex max-w-3xl items-center gap-3 px-4 py-2.5">
         <Link to="/" className="focus-ring flex min-w-0 items-center gap-2.5 rounded-lg">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-gold text-brand-black shadow-sm">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-gold text-brand-black ring-1 ring-inset ring-brand-deepgold/50">
             <Icon name="Stethoscope" size={20} strokeWidth={2.4} />
           </span>
           <span className="min-w-0 leading-tight">

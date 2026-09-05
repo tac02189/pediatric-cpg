@@ -3,7 +3,7 @@ import { GUIDELINES, guidelinesByCategory, searchGuidelines } from "../../data/i
 import { Icon } from "../../lib/icons.jsx";
 import SearchBar from "./SearchBar.jsx";
 import CategorySection from "./CategorySection.jsx";
-import GuidelineCard from "./GuidelineCard.jsx";
+import GuidelineCard, { GuidelineList } from "./GuidelineCard.jsx";
 
 export default function HomePage() {
   const [query, setQuery] = useState("");
@@ -13,16 +13,11 @@ export default function HomePage() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 pb-16 pt-5">
-      <div className="mb-5">
-        <h1 className="font-display text-2xl font-extrabold leading-tight text-slate-900">
-          Pediatric Clinical Practice Guidelines
-        </h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Tap a guideline to walk its pathway step by step, with built-in scoring and dosing.
-        </p>
-      </div>
+      <h1 className="mb-3 text-2xl font-bold leading-tight text-slate-900">
+        Clinical guidelines
+      </h1>
 
-      <div className="mb-7">
+      <div className="mb-6">
         <SearchBar value={query} onChange={setQuery} resultCount={results?.length ?? 0} />
       </div>
 
@@ -39,11 +34,11 @@ export default function HomePage() {
       ) : results.length === 0 ? (
         <NoResults query={trimmed} />
       ) : (
-        <div className="grid grid-cols-1 gap-2.5">
+        <GuidelineList>
           {results.map((g) => (
             <GuidelineCard key={g.id} guideline={g} showCategory />
           ))}
-        </div>
+        </GuidelineList>
       )}
     </div>
   );
@@ -51,7 +46,7 @@ export default function HomePage() {
 
 function NoResults({ query }) {
   return (
-    <div className="rounded-xl2 border border-dashed border-slate-300 bg-white px-4 py-10 text-center">
+    <div className="rounded-lg border border-dashed border-slate-300 bg-white px-4 py-10 text-center">
       <Icon name="Search" size={28} className="mx-auto text-slate-300" />
       <p className="mt-3 text-sm font-semibold text-slate-700">
         No guideline matches “{query}”
@@ -65,7 +60,7 @@ function NoResults({ query }) {
 
 function EmptyLibrary() {
   return (
-    <div className="rounded-xl2 border border-dashed border-slate-300 bg-white px-4 py-10 text-center">
+    <div className="rounded-lg border border-dashed border-slate-300 bg-white px-4 py-10 text-center">
       <Icon name="FileText" size={28} className="mx-auto text-slate-300" />
       <p className="mt-3 text-sm font-semibold text-slate-700">No guidelines loaded yet</p>
       <p className="mt-1 text-xs text-slate-500">

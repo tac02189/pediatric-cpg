@@ -32,13 +32,13 @@ export default function GuidelineCalculatorsPage() {
       </p>
 
       {calcs.length === 0 ? (
-        <div className="rounded-xl2 border border-dashed border-slate-300 bg-white px-4 py-10 text-center text-sm text-slate-500">
+        <div className="rounded-lg border border-dashed border-slate-300 bg-white px-4 py-10 text-center text-sm text-slate-500">
           This guideline has no standalone calculators.
         </div>
       ) : (
         <div className="space-y-4">
           {calcs.map(([calcId, calc]) => (
-            <section key={calcId} className="rounded-xl2 border border-slate-200 bg-white p-4 shadow-card">
+            <section key={calcId} className="rounded-lg border border-slate-200 bg-white p-4">
               <h2 className="mb-3 flex items-center gap-1.5 font-display text-base font-bold text-slate-900">
                 <Icon name={calc.kind === "dosing" ? "Pill" : "ListChecks"} size={17} className="text-primary-600" />
                 {calculatorName(calc, calcId)}

@@ -51,12 +51,12 @@ export default function CalculatorsPage() {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Find a score or drug, e.g. Westley, ketamine…"
-          className="focus-ring w-full rounded-xl2 border border-slate-200 bg-white py-3 pl-11 pr-4 text-base shadow-card placeholder:text-slate-400"
+          className="focus-ring w-full rounded-lg border border-slate-300 bg-white py-3 pl-11 pr-4 text-base placeholder:text-slate-400"
         />
       </div>
 
       {filtered.length === 0 ? (
-        <div className="rounded-xl2 border border-dashed border-slate-300 bg-white px-4 py-10 text-center text-sm text-slate-500">
+        <div className="rounded-lg border border-dashed border-slate-300 bg-white px-4 py-10 text-center text-sm text-slate-500">
           No calculators match “{q}”.
         </div>
       ) : (
@@ -79,7 +79,7 @@ export default function CalculatorsPage() {
                 </div>
                 <div className="space-y-2">
                   {calcs.map(({ id, calc }) => (
-                    <details key={id} className="group rounded-xl2 border border-slate-200 bg-white shadow-card">
+                    <details key={id} className="group rounded-lg border border-slate-200 bg-white">
                       <summary className="focus-ring flex cursor-pointer list-none items-center gap-2 p-3.5 text-sm font-semibold text-slate-800">
                         <Icon
                           name={calc.kind === "dosing" ? "Pill" : "ListChecks"}

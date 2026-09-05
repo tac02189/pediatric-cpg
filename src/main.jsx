@@ -3,8 +3,7 @@ import ReactDOM from "react-dom/client";
 import { HashRouter } from "react-router-dom";
 // Self-hosted fonts (bundled) — no external request, so the app's typography
 // works fully offline as a PWA.
-import "@fontsource-variable/bricolage-grotesque";
-import "@fontsource-variable/outfit";
+import "@fontsource-variable/source-sans-3";
 import App from "./App.jsx";
 import "./index.css";
 

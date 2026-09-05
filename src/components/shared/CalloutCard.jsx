@@ -8,15 +8,15 @@ export default function CalloutCard({ callout }) {
   const body = Array.isArray(callout.body) ? callout.body : [callout.body];
 
   return (
-    <div className={`rounded-xl border p-3 ${t.card}`}>
+    <div className={`rounded-lg border p-3 ${t.card}`}>
       <div className="flex items-center gap-1.5 text-sm font-bold">
         <Icon name={t.icon} size={16} className="shrink-0" />
         {callout.title}
       </div>
       {body.length === 1 ? (
-        <p className="mt-1 text-[13px] leading-relaxed">{body[0]}</p>
+        <p className="mt-1 text-[15px] leading-relaxed">{body[0]}</p>
       ) : (
-        <ul className="mt-1.5 space-y-1 text-[13px] leading-relaxed">
+        <ul className="mt-1.5 space-y-1 text-[15px] leading-relaxed">
           {body.map((line, i) => (
             <li key={i} className="flex gap-1.5">
               <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-current opacity-50" />

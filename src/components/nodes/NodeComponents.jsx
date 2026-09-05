@@ -48,7 +48,7 @@ function ContinueButton({ to, label = "Continue" }) {
     <button
       type="button"
       onClick={() => advance(to, label)}
-      className="focus-ring tap-target flex w-full items-center justify-center gap-1.5 rounded-xl bg-primary-600 p-3.5 font-display font-bold text-white shadow-card transition hover:bg-primary-700"
+      className="focus-ring tap-target flex w-full items-center justify-center gap-1.5 rounded-lg bg-primary-700 p-3.5 font-display font-bold text-white transition hover:bg-primary-800"
     >
       {label}
       <Icon name="ArrowRight" size={18} />
@@ -71,7 +71,7 @@ function BranchButtons({ branches, recommendedNext, disabled, onPick }) {
             type="button"
             disabled={disabled}
             onClick={() => pick(b)}
-            className={`focus-ring tap-target flex w-full items-center gap-2.5 rounded-xl border-2 p-3.5 text-left font-semibold transition disabled:cursor-not-allowed disabled:opacity-50 ${
+            className={`focus-ring tap-target flex w-full items-center gap-2.5 rounded-lg border-2 p-3.5 text-left font-semibold transition disabled:cursor-not-allowed disabled:opacity-50 ${
               recommended
                 ? "border-primary-500 bg-primary-50 ring-2 ring-primary-200"
                 : t
@@ -104,7 +104,7 @@ export function StartNode({ node, guideline }) {
       {(hasInc || hasExc) && (
         <div className="grid grid-cols-1 gap-3">
           {hasInc && (
-            <div className="rounded-xl border border-emerald-200 bg-emerald-50/50 p-3">
+            <div className="rounded-lg border border-emerald-200 bg-emerald-50/50 p-3">
               <h3 className="mb-2 text-xs font-bold uppercase tracking-wide text-emerald-700">
                 Inclusion criteria
               </h3>
@@ -112,7 +112,7 @@ export function StartNode({ node, guideline }) {
             </div>
           )}
           {hasExc && (
-            <div className="rounded-xl border border-rose-200 bg-rose-50/50 p-3">
+            <div className="rounded-lg border border-rose-200 bg-rose-50/50 p-3">
               <h3 className="mb-2 text-xs font-bold uppercase tracking-wide text-rose-700">
                 Exclusion criteria
               </h3>
@@ -135,9 +135,9 @@ export function ActionNode({ node, guideline }) {
   return (
     <NodeFrame node={node} guideline={guideline} controls={<ContinueButton to={node.next} />}>
       {node.items?.length > 0 && (
-        <ul className="space-y-2 rounded-xl border border-slate-200 bg-white p-3">
+        <ul className="space-y-2.5">
           {node.items.map((item, i) => (
-            <li key={i} className="flex gap-2.5 text-[15px] text-slate-700">
+            <li key={i} className="flex gap-2.5 text-[15px] leading-relaxed text-slate-700">
               <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary-100 text-xs font-bold text-primary-700">
                 {i + 1}
               </span>

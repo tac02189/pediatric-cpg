@@ -31,8 +31,11 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Bricolage Grotesque Variable"', "system-ui", "sans-serif"],
-        sans: ['"Outfit Variable"', "system-ui", "-apple-system", "sans-serif"],
+        // Clinical Index redesign: one workhorse face for everything. `display`
+        // is kept as a token (headings differ by weight, not family) so the
+        // existing font-display call sites stay valid.
+        display: ['"Source Sans 3 Variable"', "system-ui", "sans-serif"],
+        sans: ['"Source Sans 3 Variable"', "system-ui", "-apple-system", "sans-serif"],
       },
       colors: {
         // Mizzou brand gold — reserved for the header/brand bar only.
@@ -54,13 +57,6 @@ export default {
           800: "#115e59",
           900: "#134e4a",
         },
-      },
-      boxShadow: {
-        card: "0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04)",
-        "card-hover": "0 8px 24px rgba(15, 23, 42, 0.12)",
-      },
-      borderRadius: {
-        xl2: "1rem",
       },
     },
   },
