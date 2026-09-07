@@ -3,14 +3,23 @@
   "configurations": [
     {
       "name": "dev",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeExecutable": "C:\\Program Files\\nodejs\\node.exe",
+      "runtimeArgs": [
+        ".claude/npm-run.cjs",
+        "dev"
+      ],
       "port": 5173
     },
     {
       "name": "preview",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "preview", "--", "--port", "4173"],
+      "runtimeExecutable": "C:\\Program Files\\nodejs\\node.exe",
+      "runtimeArgs": [
+        ".claude/npm-run.cjs",
+        "preview",
+        "--",
+        "--port",
+        "4173"
+      ],
       "port": 4173
     }
   ]
