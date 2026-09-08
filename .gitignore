@@ -28,3 +28,6 @@ firebase-debug.log
 .idea/
 .DS_Store
 *.local
+
+# Machine-local Claude Code permissions (*.local does not match a .json suffix)
+.claude/settings.local.json
