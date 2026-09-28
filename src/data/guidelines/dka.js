@@ -1,7 +1,11 @@
 // Diabetic Ketoacidosis (DKA) Management — University of Missouri Pediatric
-// Service Line CPG (July 2026). Transcribed from dka.pdf. Newly added — ships as
+// Service Line CPG (September 2026). Transcribed from dka.pdf. Ships as
 // DRAFT (verified: false) pending physician review. Dosing/criteria copied
 // verbatim; verify against the source PDF.
+//
+// September 2026 PDF sync: the only content change from the July 2026 edition
+// is the criteria box retitle "Criteria for DKA" → "Criteria for Insulin
+// Infusion" (criteria list itself unchanged), plus the Last Edited date.
 
 export default {
   id: "dka",
@@ -26,7 +30,7 @@ export default {
   shortDescription: "Phased management of pediatric DKA — fluids, insulin 2-bag system, K⁺, and cerebral-edema care.",
   sourcePdf: "dka.pdf",
   version: "2026",
-  lastEdited: "July 2026",
+  lastEdited: "September 2026",
   authors: [
     "MB Bernardin",
     "S Kattikat",
@@ -51,7 +55,7 @@ export default {
     },
     dkaCriteriaList: {
       tone: "info",
-      title: "Criteria for DKA",
+      title: "Criteria for Insulin Infusion",
       body: [
         "Hyperglycemia ≥ 200 mg/dL",
         "Venous pH < 7.25 and/or bicarb < 15 mmol/L",
@@ -203,10 +207,10 @@ export default {
     dkaCriteria: {
       id: "dkaCriteria",
       type: "decision",
-      title: "Does the patient meet criteria for DKA?",
+      title: "Does the patient meet criteria for insulin infusion?",
       calloutIds: ["dkaCriteriaList", "bicarbNote"],
       branches: [
-        { label: "Yes — meets DKA criteria", next: "newOnset" },
+        { label: "Yes — meets insulin infusion criteria", next: "newOnset" },
         { label: "No", next: "altDx" },
       ],
     },
