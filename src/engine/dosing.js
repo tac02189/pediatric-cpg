@@ -25,6 +25,11 @@ function fmt(n) {
 // conditional `rules` (first match wins).
 function resolveSpec(drug, ctx) {
   if (Array.isArray(drug.rules)) {
+    // Rules select their dose by patient context, and a weight-tiered rule
+    // resolving to a flat dose bypasses computeFromDose's isValidWeight
+    // check — so an absent or out-of-range weight must prompt for weight
+    // here, never pick a tier and print a confident dose.
+    if (!isValidWeight(ctx.weightKg)) return { matched: true, needsWeight: true };
     const rule = drug.rules.find((r) => {
       try {
         return r.when(ctx);
@@ -133,6 +138,9 @@ export function computeDrug(drug, ctx = {}) {
   };
 
   const spec = resolveSpec(drug, ctx);
+  if (spec.needsWeight) {
+    return { ...base, needsWeight: true };
+  }
   if (!spec.matched) {
     return { ...base, unmatched: true };
   }
