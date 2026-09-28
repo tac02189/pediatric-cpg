@@ -28,6 +28,7 @@ import {
   Bandage,
   Ambulance,
   Biohazard,
+  Haze,
   // ui icons
   Search,
   ChevronRight,
@@ -83,6 +84,7 @@ const REGISTRY = {
   Bandage,
   Ambulance,
   Biohazard,
+  Haze,
   Search,
   ChevronRight,
   ChevronLeft,
