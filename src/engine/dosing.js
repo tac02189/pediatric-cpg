@@ -15,10 +15,62 @@ export function isValidWeight(kg) {
   return typeof kg === "number" && isFinite(kg) && kg >= WEIGHT_MIN_KG && kg <= WEIGHT_MAX_KG;
 }
 
-function fmt(n) {
+// Weight may be entered in pounds (parents usually report it that way), but every
+// calculation runs in kg. 1 lb = 0.45359237 kg exactly (international pound).
+export const KG_PER_LB = 0.45359237;
+
+export function lbToKg(lb) {
+  return lb * KG_PER_LB;
+}
+
+export function kgToLb(kg) {
+  return kg / KG_PER_LB;
+}
+
+// Pounds dose at their conversion rounded to 0.01 kg, so the kg shown back to the
+// clinician ("= 20 kg — used for dosing") is exactly the kg dosed, and a weight
+// band can never show one number while dosing by another (44.1 lb is 20.0034 kg:
+// unrounded it would read "20 kg" yet fall in a "> 20 kg" band).
+function lbToDosingKg(lb) {
+  return Math.round(lbToKg(lb) * 100) / 100;
+}
+
+// The accepted pound range, as shown to the clinician: the outermost 0.1-lb
+// values whose dosing weight is valid.
+function lbEdge(limitKg, inward) {
+  const raw = kgToLb(limitKg) * 10;
+  let lb = (inward > 0 ? Math.floor(raw) : Math.ceil(raw)) / 10;
+  while (!isValidWeight(lbToDosingKg(lb))) lb = Math.round((lb + inward) * 10) / 10;
+  return lb;
+}
+export const WEIGHT_MIN_LB = lbEdge(WEIGHT_MIN_KG, 0.1);
+export const WEIGHT_MAX_LB = lbEdge(WEIGHT_MAX_KG, -0.1);
+
+// The dosing weight for what was typed. Kilograms are used exactly as typed.
+// Pounds use lbToDosingKg, but only inside the pound range shown above; outside
+// it the entry is not an accepted weight (NaN — never a valid weight), so the
+// range shown and the range accepted are identical even for entries finer than
+// 0.1 lb (1.095 lb would otherwise round up to a valid 0.50 kg, below the
+// stated 1.1 lb minimum).
+export function entryToKg(text, unit) {
+  if (text == null || String(text).trim() === "") return null;
+  const n = Number(text);
+  if (!Number.isFinite(n)) return null;
+  if (unit !== "lb") return n;
+  return n >= WEIGHT_MIN_LB && n <= WEIGHT_MAX_LB ? lbToDosingKg(n) : NaN;
+}
+
+export function fmt(n) {
   if (n == null || !isFinite(n)) return "";
   // Trim to at most 2 decimals without trailing zeros.
   return parseFloat(n.toFixed(2)).toString();
+}
+
+// The weight inside a dose formula is printed exactly as used — the very number
+// the dose was computed from — never rounded, so the formula always reproduces
+// the dose and agrees with any weight band (fmt would print 9.999 kg as "10 kg").
+function exactKg(kg) {
+  return String(kg);
 }
 
 // Resolve the active dose spec for a drug given the patient context, honoring
@@ -116,7 +168,7 @@ function computeFromDose(dose, ctx) {
   return {
     unit,
     text: valueText,
-    formula: `${rateText} × ${fmt(weight)} kg${capRefs.length ? ` (${capRefs.join(", ")})` : ""}`,
+    formula: `${rateText} × ${exactKg(weight)} kg${capRefs.length ? ` (${capRefs.join(", ")})` : ""}`,
     capped,
     floored,
     volume,

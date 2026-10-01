@@ -1,15 +1,15 @@
-import { useEffect, useReducer, useRef } from "react";
-import { workflowReducer, initWorkflowState } from "../../engine/workflowReducer.js";
-import { WorkflowContext } from "./workflowContext.js";
+import { useEffect, useRef } from "react";
+import { useWorkflow } from "./workflowContext.js";
 import NodeRenderer from "./NodeRenderer.jsx";
 import Breadcrumb from "./Breadcrumb.jsx";
 import BackBar from "./BackBar.jsx";
 import ReferencesAccordion from "./ReferencesAccordion.jsx";
 
-// Owns the workflow state machine and exposes it (plus action helpers) to the
-// node components via context. Generic — never references a specific guideline.
-export default function WorkflowPlayer({ guideline }) {
-  const [state, dispatch] = useReducer(workflowReducer, guideline, initWorkflowState);
+// Renders the current step of the workflow. The state machine itself lives in
+// GuidelineSession, which provides it (plus action helpers) via context.
+// Generic — never references a specific guideline.
+export default function WorkflowPlayer() {
+  const { guideline, state } = useWorkflow();
 
   // Moving forward to a new step (or restarting) jumps back to the top, so each
   // step starts at its beginning instead of wherever the previous step's button
@@ -23,23 +23,10 @@ export default function WorkflowPlayer({ guideline }) {
     if (movedForward || restarted) window.scrollTo(0, 0);
   }, [state.currentNodeId, state.history.length]);
 
-  const value = {
-    guideline,
-    state,
-    dispatch,
-    advance: (toNodeId, choiceLabel) => dispatch({ type: "ADVANCE", toNodeId, choiceLabel }),
-    setPatient: (key, val) => dispatch({ type: "SET_PATIENT", key, value: val }),
-    setCalcInput: (calcId, key, val) =>
-      dispatch({ type: "SET_CALC_INPUT", calcId, key, value: val }),
-    recordScore: (calcId, result) => dispatch({ type: "RECORD_SCORE", calcId, result }),
-    toggleCheck: (nodeId, idx) => dispatch({ type: "TOGGLE_CHECK", nodeId, idx }),
-    restart: () => dispatch({ type: "RESTART", startNodeId: guideline.startNodeId }),
-  };
-
   const node = guideline.nodes[state.currentNodeId];
 
   return (
-    <WorkflowContext.Provider value={value}>
+    <>
       <Breadcrumb />
       <div
         className="mx-auto max-w-3xl px-4 pt-4"
@@ -49,6 +36,6 @@ export default function WorkflowPlayer({ guideline }) {
         <ReferencesAccordion guideline={guideline} />
       </div>
       <BackBar />
-    </WorkflowContext.Provider>
+    </>
   );
 }

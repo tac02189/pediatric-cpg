@@ -58,6 +58,7 @@ import {
   Scale,
   CornerDownRight,
   CheckCheck,
+  UserPlus,
 } from "lucide-react";
 
 const REGISTRY = {
@@ -113,6 +114,7 @@ const REGISTRY = {
   Scale,
   CornerDownRight,
   CheckCheck,
+  UserPlus,
 };
 
 export function Icon({ name, ...props }) {

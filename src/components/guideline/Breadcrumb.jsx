@@ -9,6 +9,9 @@ export default function Breadcrumb() {
 
   const titleOf = (id) => guideline.nodes[id]?.title || id;
   const current = titleOf(currentNodeId);
+  // history[0] is always the starting step, which the Home button reaches, so the
+  // crumbs begin after it — otherwise the same step is offered twice.
+  const startTitle = titleOf(history[0].nodeId);
 
   return (
     <nav
@@ -21,25 +24,33 @@ export default function Breadcrumb() {
           type="button"
           onClick={() => dispatch({ type: "GOTO_CRUMB", index: 0 })}
           className="focus-ring flex shrink-0 items-center rounded p-1 text-slate-400 hover:text-primary-600"
-          aria-label="Back to start"
+          aria-label={`Back to start: ${startTitle}`}
+          title={startTitle}
         >
           <Icon name="Home" size={14} />
         </button>
-        {history.map((h, i) => (
-          <div key={i} className="flex shrink-0 items-center gap-1">
-            <Icon name="ChevronRight" size={13} className="text-slate-300" />
-            <button
-              type="button"
-              onClick={() => dispatch({ type: "GOTO_CRUMB", index: i })}
-              className="focus-ring max-w-[120px] truncate rounded px-1 py-0.5 font-medium text-slate-500 hover:text-primary-600"
-              title={titleOf(h.nodeId)}
-            >
-              {titleOf(h.nodeId)}
-            </button>
-          </div>
-        ))}
+        {history.slice(1).map((h, i) => {
+          const index = i + 1;
+          return (
+            <div key={index} className="flex shrink-0 items-center gap-1">
+              <Icon name="ChevronRight" size={13} className="text-slate-300" />
+              <button
+                type="button"
+                onClick={() => dispatch({ type: "GOTO_CRUMB", index })}
+                className="focus-ring max-w-[120px] truncate rounded px-1 py-0.5 font-medium text-slate-500 hover:text-primary-600"
+                title={titleOf(h.nodeId)}
+              >
+                {titleOf(h.nodeId)}
+              </button>
+            </div>
+          );
+        })}
         <Icon name="ChevronRight" size={13} className="shrink-0 text-slate-300" />
-        <span className="max-w-[140px] shrink-0 truncate rounded px-1 py-0.5 font-bold text-slate-800" title={current}>
+        <span
+          aria-current="step"
+          className="max-w-[140px] shrink-0 truncate rounded px-1 py-0.5 font-bold text-slate-800"
+          title={current}
+        >
           {current}
         </span>
       </div>

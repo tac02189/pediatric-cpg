@@ -16,6 +16,8 @@ export default function CriteriaList({ items = [], variant = "include", checked 
             <li key={i}>
               <button
                 type="button"
+                role="checkbox"
+                aria-checked={on}
                 onClick={() => onToggle?.(i)}
                 className={`focus-ring tap-target flex w-full items-start gap-3 rounded-xl border p-3 text-left transition ${
                   on

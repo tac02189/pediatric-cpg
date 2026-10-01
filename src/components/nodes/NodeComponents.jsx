@@ -1,4 +1,6 @@
 import { useWorkflow } from "../guideline/workflowContext.js";
+import { hasPatientDetails, describePatient } from "../../engine/workflowReducer.js";
+import { focusStepHeadingSoon } from "../guideline/stepFocus.js";
 import { evaluateScore } from "../../engine/scoring.js";
 import { branchForScore } from "../../engine/resolveNext.js";
 import { tone, dispositionTone } from "../../lib/tones.js";
@@ -20,7 +22,14 @@ function NodeFrame({ node, guideline, children, controls }) {
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="font-display text-xl font-bold leading-snug text-slate-900">{node.title}</h2>
+        {/* data-step-heading + tabIndex -1: focus target after a restart (stepFocus.js) */}
+        <h2
+          data-step-heading
+          tabIndex={-1}
+          className="font-display text-xl font-bold leading-snug text-slate-900 outline-none"
+        >
+          {node.title}
+        </h2>
         {body.map((p, i) => (
           <p key={i} className="mt-2 text-[15px] leading-relaxed text-slate-600">
             {p}
@@ -169,7 +178,7 @@ export function ScoreNode({ node, guideline }) {
   const result =
     calc.engine === "rule"
       ? evaluateScore(calc, { inputs })
-      : evaluateScore(calc, { selections: inputs });
+      : evaluateScore(calc, { choices: inputs });
   const matching = result.complete ? branchForScore(node, result) : null;
 
   const onPick = (b) => {
@@ -213,7 +222,13 @@ export function ScoreNode({ node, guideline }) {
 export function DosingNode({ node, guideline }) {
   const { state, setPatient } = useWorkflow();
   const calc = guideline.calculators[node.calculatorId];
-  const ctx = { weightKg: state.weightKg, sex: state.sex, ageMonths: state.ageMonths };
+  const ctx = {
+    weightKg: state.weightKg,
+    weightText: state.weightText,
+    weightUnit: state.weightUnit,
+    sex: state.sex,
+    ageMonths: state.ageMonths,
+  };
   return (
     <NodeFrame node={node} guideline={guideline} controls={<ContinueButton to={node.next} />}>
       <DosingCalculator calc={calc} ctx={ctx} onPatientChange={setPatient} />
@@ -297,7 +312,11 @@ function ReferenceAction({ action }) {
 }
 
 export function OutcomeNode({ node, guideline }) {
-  const { restart } = useWorkflow();
+  const { state, restart, newPatient } = useWorkflow();
+  // The end of a pathway is where the next patient usually starts — so with
+  // patient details on file, offer "New patient" first and name exactly what
+  // a same-patient restart would carry over.
+  const hasPatient = hasPatientDetails(state);
   const t = tone(node.tone || dispositionTone(node.disposition));
   const body = node.body == null ? [] : Array.isArray(node.body) ? node.body : [node.body];
   const callouts = (node.calloutIds || []).map((id) => guideline.callouts?.[id]).filter(Boolean);
@@ -307,7 +326,9 @@ export function OutcomeNode({ node, guideline }) {
       <div className={`rounded-2xl border-2 p-4 ${t.card}`}>
         <div className="flex items-center gap-2">
           <Icon name={t.icon} size={22} className="shrink-0" />
-          <h2 className="font-display text-xl font-extrabold">{node.title}</h2>
+          <h2 data-step-heading tabIndex={-1} className="font-display text-xl font-extrabold outline-none">
+            {node.title}
+          </h2>
         </div>
         {body.map((p, i) => (
           <p key={i} className="mt-2 text-[15px] leading-relaxed">
@@ -328,18 +349,40 @@ export function OutcomeNode({ node, guideline }) {
       {node.next && <ContinueButton to={node.next} />}
 
       <div className="flex flex-wrap gap-2">
+        {hasPatient && (
+          <button
+            type="button"
+            onClick={() => {
+              newPatient();
+              focusStepHeadingSoon();
+            }}
+            className="focus-ring tap-target inline-flex items-center gap-1.5 rounded-lg bg-primary-700 px-3 py-2 text-sm font-semibold text-white hover:bg-primary-800"
+          >
+            <Icon name="UserPlus" size={16} />
+            New patient
+          </button>
+        )}
         <button
           type="button"
-          onClick={restart}
-          className="focus-ring tap-target inline-flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+          onClick={() => {
+            restart();
+            focusStepHeadingSoon();
+          }}
+          className="focus-ring tap-target inline-flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50"
         >
-          <Icon name="RotateCcw" size={16} />
-          Start over
+          <Icon name="RotateCcw" size={16} className="shrink-0" />
+          {hasPatient ? (
+            <span>
+              Start over, same patient{" "}
+              <span className="font-medium text-slate-500">({describePatient(state)})</span>
+            </span>
+          ) : (
+            "Start over"
+          )}
         </button>
         <PdfButton
           sourcePdf={guideline.sourcePdf}
           title={guideline.fullTitle || guideline.title}
-          version={guideline.lastEdited}
           variant="outline"
         />
       </div>

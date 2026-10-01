@@ -14,6 +14,20 @@ export function additiveTotal(calc, selections = {}) {
   }, 0);
 }
 
+// Additive answers are stored as the index of the chosen option, not its points:
+// several options can carry the same points (PRAS respiratory rate has four age
+// bands that each score 0–3), and only the index records which one was chosen.
+// This turns those choices into the per-item points the functions here sum.
+export function selectionsFromChoices(calc, choices = {}) {
+  const selections = {};
+  for (const item of calc.items || []) {
+    const i = choices[item.id];
+    const opt = Number.isInteger(i) ? item.options?.[i] : undefined;
+    if (opt && typeof opt.value === "number") selections[item.id] = opt.value;
+  }
+  return selections;
+}
+
 export function allItemsAnswered(calc, selections = {}) {
   return (calc.items || []).every((item) => typeof selections[item.id] === "number");
 }
@@ -57,7 +71,11 @@ export function evaluateScore(calc, state = {}) {
       detail: result ? result.detail : null,
     };
   }
-  const selections = state.selections || {};
+  // `choices` (option index per item) is what the UI stores; `selections`
+  // (points per item) is accepted directly too.
+  const selections = state.choices
+    ? selectionsFromChoices(calc, state.choices)
+    : state.selections || {};
   const total = additiveTotal(calc, selections);
   const band = bandForTotal(calc, total);
   return {

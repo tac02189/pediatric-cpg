@@ -1,4 +1,6 @@
+import { useId } from "react";
 import { evaluateScore } from "../../engine/scoring.js";
+import { radioTabIndex, onRadioKeyDown } from "../../lib/radioGroup.js";
 import { tone } from "../../lib/tones.js";
 import { Icon } from "../../lib/icons.jsx";
 
@@ -9,7 +11,7 @@ export default function ScoreCalculator({ calc, inputs = {}, onInput }) {
   const result =
     calc.engine === "rule"
       ? evaluateScore(calc, { inputs })
-      : evaluateScore(calc, { selections: inputs });
+      : evaluateScore(calc, { choices: inputs });
 
   return (
     <div className="space-y-3">
@@ -24,28 +26,47 @@ export default function ScoreCalculator({ calc, inputs = {}, onInput }) {
 }
 
 function AdditiveItems({ calc, inputs, onInput }) {
+  const uid = useId();
   return (
     <div className="space-y-2.5">
       {calc.items.map((item) => {
-        const selected = inputs[item.id];
+        // The stored answer is the chosen option's index (see selectionsFromChoices):
+        // options can share points, and only the index says which one was picked.
+        const choice = inputs[item.id];
+        const selectedIndex = Number.isInteger(choice) && item.options[choice] ? choice : -1;
+        const points = selectedIndex >= 0 ? item.options[selectedIndex].value : null;
+        const labelId = `${uid}-${item.id}`;
         return (
           <div key={item.id} className="rounded-xl border border-slate-200 bg-white p-3">
             <div className="mb-2 flex items-baseline justify-between gap-2">
-              <span className="text-sm font-semibold text-slate-800">{item.label}</span>
-              {typeof selected === "number" && (
+              <span id={labelId} className="text-sm font-semibold text-slate-800">
+                {item.label}
+              </span>
+              {typeof points === "number" && (
                 <span className="shrink-0 rounded bg-slate-100 px-1.5 py-0.5 text-xs font-bold tabular-nums text-slate-600">
-                  +{selected}
+                  {points >= 0 ? "+" : ""}
+                  {points}
                 </span>
               )}
             </div>
-            <div className="flex flex-wrap gap-1.5">
+            {/* One answer per item: a labelled radio group (arrow keys move the
+                answer), so a screen reader hears "radio button, 2 of 3, checked". */}
+            <div
+              role="radiogroup"
+              aria-labelledby={labelId}
+              onKeyDown={(e) => onRadioKeyDown(e, selectedIndex, (i) => onInput(item.id, i))}
+              className="flex flex-wrap gap-1.5"
+            >
               {item.options.map((opt, oi) => {
-                const on = selected === opt.value;
+                const on = oi === selectedIndex;
                 return (
                   <button
                     key={oi}
                     type="button"
-                    onClick={() => onInput(item.id, opt.value)}
+                    role="radio"
+                    aria-checked={on}
+                    tabIndex={radioTabIndex(oi, selectedIndex)}
+                    onClick={() => onInput(item.id, oi)}
                     className={`focus-ring inline-flex min-h-[42px] items-center rounded-lg border px-3 py-2 text-left text-[13px] font-medium transition ${
                       on
                         ? "border-primary-600 bg-primary-600 text-white"
@@ -97,6 +118,8 @@ function RuleItems({ calc, inputs, onInput }) {
           <button
             key={c.id}
             type="button"
+            role="checkbox"
+            aria-checked={on}
             onClick={() => onInput(c.id, !on)}
             className={`focus-ring tap-target flex w-full items-start gap-3 rounded-xl border p-3 text-left transition ${
               on ? "border-primary-300 bg-primary-50" : "border-slate-200 bg-white hover:border-slate-300"
@@ -123,9 +146,19 @@ function RuleItems({ calc, inputs, onInput }) {
 function ResultReadout({ calc, result }) {
   const bandTone = result.band?.tone || (result.complete ? "info" : "neutral");
   const t = tone(bandTone);
+  // Screen readers hear the score only once it is complete (and again whenever a
+  // completed score changes) — not "answer all items" after every single tap.
+  const announcement = result.complete
+    ? [calc.name, calc.engine !== "rule" ? String(result.total) : null, result.label]
+        .filter(Boolean)
+        .join(", ")
+    : "";
 
   return (
     <div className={`rounded-xl border p-3 ${result.complete ? t.card : "border-slate-200 bg-slate-50 text-slate-500"}`}>
+      <p className="sr-only" aria-live="polite" aria-atomic="true">
+        {announcement}
+      </p>
       <div className="flex items-center justify-between gap-3">
         <span className="text-xs font-semibold uppercase tracking-wide opacity-70">
           {calc.name}

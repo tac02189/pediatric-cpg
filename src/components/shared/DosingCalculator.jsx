@@ -14,6 +14,8 @@ export default function DosingCalculator({ calc, ctx = {}, onPatientChange, show
         <WeightInput
           need={need}
           weightKg={ctx.weightKg}
+          weightText={ctx.weightText}
+          weightUnit={ctx.weightUnit}
           sex={ctx.sex}
           ageMonths={ctx.ageMonths}
           onChange={onPatientChange}
