@@ -65,10 +65,14 @@ server config.
 
 ## PWA / offline
 
-Built with `vite-plugin-pwa`. The app shell + all guideline data are precached
-(works fully offline after first load); source PDFs are cached on first view.
-Fonts are self-hosted (`@fontsource`) so typography works offline. Test
-"Add to Home Screen" and offline mode on a real device.
+Built with `vite-plugin-pwa`. The app shell, all guideline data, and every
+source PDF are precached, so the whole app — each guideline's official PDF
+included — works offline after the first load. PDF URLs carry a content hash
+(`?v=`, computed in `vite.config.js`), so a replaced PDF reaches installed
+phones with the next app update, never a stale cached copy. `check-pdfs.mjs`
+fails the build if a PDF is too large to precache. Fonts are self-hosted
+(`@fontsource`) so typography works offline. Test "Add to Home Screen" and
+offline mode on a real device.
 
 ## Icons
 

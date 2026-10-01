@@ -9,10 +9,17 @@ import { Icon } from "../../lib/icons.jsx";
 let pdfjsPromise = null;
 function loadPdfjs() {
   if (!pdfjsPromise) {
-    pdfjsPromise = import("pdfjs-dist").then((pdfjs) => {
-      pdfjs.GlobalWorkerOptions.workerPort = new PdfWorker();
-      return pdfjs;
-    });
+    pdfjsPromise = import("pdfjs-dist")
+      .then((pdfjs) => {
+        pdfjs.GlobalWorkerOptions.workerPort = new PdfWorker();
+        return pdfjs;
+      })
+      .catch((err) => {
+        // Never cache a failure: one flaky load would otherwise break the viewer
+        // until the app is reloaded. The next open tries again.
+        pdfjsPromise = null;
+        throw err;
+      });
   }
   return pdfjsPromise;
 }
