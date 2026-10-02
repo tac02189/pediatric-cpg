@@ -1,11 +1,29 @@
 // Diabetic Ketoacidosis (DKA) Management — University of Missouri Pediatric
 // Service Line CPG (September 2026). Transcribed from dka.pdf. Ships as
 // DRAFT (verified: false) pending physician review. Dosing/criteria copied
-// verbatim; verify against the source PDF.
+// verbatim, except where the physician decisions below say otherwise; verify
+// against the source PDF.
 //
 // September 2026 PDF sync: the only content change from the July 2026 edition
 // is the criteria box retitle "Criteria for DKA" → "Criteria for Insulin
 // Infusion" (criteria list itself unchanged), plus the Last Edited date.
+//
+// Physician decisions (Thiago DeSouza, 2026-10-02) where the PDF is ambiguous
+// or inconsistent. They deliberately differ from the PDF: keep them through
+// future PDF syncs.
+//  • HHS: serum osmolality ≥ 320 mOsm/kg everywhere. The PDF's decision box
+//    says "≥ 320", but its footnote e (labs typical of HHS) says "> 320".
+//  • β-hydroxybutyrate ≥ 3 is in mmol/L. The PDF gives no unit.
+//  • All three criteria in "Criteria for Insulin Infusion" are required for
+//    DKA. The PDF doesn't say so. Not meeting all three takes the existing
+//    "No" branch, to "Consider alternative diagnoses".
+//
+// Open — known to the physician, to be fixed later: the potassium table, which
+// is transcribed as printed (wording condensed). Its rows "≤ 3" and "3.1–3.3"
+// leave a K⁺ between 3.0 and 3.1 in neither row. The 3.1–3.3 row reads
+// "additional IV potassium repletion has been administered (PO) or … is being
+// infused (IV)", naming IV and PO at once. Keep verified: false until this is
+// resolved.
 
 export default {
   id: "dka",
@@ -55,11 +73,11 @@ export default {
     },
     dkaCriteriaList: {
       tone: "info",
-      title: "Criteria for Insulin Infusion",
+      title: "Criteria for Insulin Infusion — all three required",
       body: [
         "Hyperglycemia ≥ 200 mg/dL",
         "Venous pH < 7.25 and/or bicarb < 15 mmol/L",
-        "β-hydroxybutyrate ≥ 3 or moderate/large ketones",
+        "β-hydroxybutyrate ≥ 3 mmol/L or moderate/large ketones",
       ],
     },
     bicarbNote: {
@@ -79,7 +97,7 @@ export default {
     hhsLabs: {
       tone: "info",
       title: "Labs typical of HHS",
-      body: "Glucose > 600 mg/dL, venous pH > 7.35, bicarb ≥ 15 mEq/L, minimal or absent ketones, serum osmolality > 320 mOsm/kg.",
+      body: "Glucose > 600 mg/dL, venous pH > 7.35, bicarb ≥ 15 mEq/L, minimal or absent ketones, serum osmolality ≥ 320 mOsm/kg.",
     },
     insulinNote: {
       tone: "warning",
@@ -207,10 +225,10 @@ export default {
     dkaCriteria: {
       id: "dkaCriteria",
       type: "decision",
-      title: "Does the patient meet criteria for insulin infusion?",
+      title: "Does the patient meet all three criteria for insulin infusion?",
       calloutIds: ["dkaCriteriaList", "bicarbNote"],
       branches: [
-        { label: "Yes — meets insulin infusion criteria", next: "newOnset" },
+        { label: "Yes — meets all three criteria", next: "newOnset" },
         { label: "No", next: "altDx" },
       ],
     },
@@ -219,7 +237,7 @@ export default {
       id: "altDx",
       type: "outcome",
       title: "Consider alternative diagnoses",
-      body: "Consult Peds Endocrinology as needed.",
+      body: "DKA requires all three criteria. Consult Peds Endocrinology as needed.",
       disposition: "consult",
       tone: "neutral",
       calloutIds: ["riskStratification"],
@@ -274,7 +292,7 @@ export default {
             "3.1–3.3",
             "May start only if additional IV K⁺ repletion given (PO) or being infused (IV)",
             "NS + KCl 20 mEq/L",
-            "PO (preferred): 0.5 mEq/kg (max 20 mEq) oral liquid/powder — OR IV: 0.5 mEq/kg (max 20 mEq) over 2 h; rate 0.25 mEq/kg/hr (max 10 mEq/hr)",
+            "PO (preferred): 0.5 mEq/kg (max 20 mEq) oral liquid/powder — OR IV (if not tolerating PO): 0.5 mEq/kg (max 20 mEq) over 2 h; rate 0.25 mEq/kg/hr (max 10 mEq/hr)",
             "1–2 h after end of K⁺ administration",
           ],
           ["> 3.3", "Start immediately", "LR (preferred) or NS", "None", "Standard lab frequency"],
