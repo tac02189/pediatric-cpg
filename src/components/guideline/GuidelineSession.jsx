@@ -25,7 +25,13 @@ function Session({ guideline }) {
     guideline,
     state,
     dispatch,
-    advance: (toNodeId, choiceLabel) => dispatch({ type: "ADVANCE", toNodeId, choiceLabel }),
+    advance: (toNodeId, choiceLabel) => {
+      // Arriving at a score step is always a new assessment: start its calculator
+      // blank, even when an earlier step used the same one (a reassessment).
+      const to = guideline.nodes[toNodeId];
+      const freshCalcId = to?.type === "score" ? to.calculatorId : undefined;
+      dispatch({ type: "ADVANCE", toNodeId, choiceLabel, freshCalcId });
+    },
     setPatient: (key, val) => dispatch({ type: "SET_PATIENT", key, value: val }),
     setCalcInput: (calcId, key, val) =>
       dispatch({ type: "SET_CALC_INPUT", calcId, key, value: val }),

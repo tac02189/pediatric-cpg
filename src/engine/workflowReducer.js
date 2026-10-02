@@ -11,6 +11,10 @@
 //    the path. Each history entry saves them as they stood when that step was
 //    left, and rewinding restores exactly that — so answers given on a branch the
 //    user backed out of never resurface on the step they returned to.
+//  • Moving FORWARD onto a score step starts that calculator blank (ADVANCE's
+//    freshCalcId), even when an earlier step used the same calculator: a
+//    reassessment must be a new assessment, not the earlier answers already
+//    marked complete. Going back still restores what was entered.
 
 import { fmt } from "./dosing.js";
 
@@ -60,13 +64,29 @@ export function workflowReducer(state, action) {
   switch (action.type) {
     case "ADVANCE": {
       if (!action.toNodeId) return state; // dead-end label: ignore
+      // The step being left keeps its answers in its history entry...
       const saved = {
         calcInputs: state.calcInputs,
         scores: state.scores,
         checklist: state.checklist,
       };
+      // ...while a score step being entered starts its calculator blank — answers
+      // and the recorded result alike, so nothing of the earlier assessment
+      // survives into the new one.
+      let { calcInputs, scores } = state;
+      const fresh = action.freshCalcId;
+      if (fresh && fresh in calcInputs) {
+        calcInputs = { ...calcInputs };
+        delete calcInputs[fresh];
+      }
+      if (fresh && fresh in scores) {
+        scores = { ...scores };
+        delete scores[fresh];
+      }
       return {
         ...state,
+        calcInputs,
+        scores,
         history: [
           ...state.history,
           { nodeId: state.currentNodeId, choiceLabel: action.choiceLabel || "", saved },

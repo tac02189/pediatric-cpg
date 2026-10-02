@@ -65,33 +65,126 @@ export default function PdfButton({
   );
 }
 
+// The viewer's history entry. Opening the viewer adds one entry so the device
+// Back button / swipe-back closes the viewer instead of leaving the guideline,
+// and closing it asks the browser to go back over that entry. Each entry carries
+// a unique token.
+//
+// Policy for asking the browser to go back — conservative, because popstate
+// events carry no identity, so a requested traversal can never be matched to
+// the one that arrives. The state is module-level because a request outlives the
+// viewer that made it: the viewer unmounts on the first popstate, which may be
+// the user's own Back rather than the traversal it requested.
+//  • Only from an entry this viewer owns (created, or reused, on open).
+//  • Not within SETTLE_MS of the previous request, whatever popstates arrive.
+//  • Never again this session if no popstate at all arrived within SETTLE_MS of
+//    a request. Closes are then local, and the entry left behind is reused by
+//    the next open rather than stacked on.
+// Residual, accepted: a traversal the browser DELAYS (rather than drops) for
+// more than SETTLE_MS, while the user's own Back lands first and a viewer is
+// then reopened and closed, could still produce two traversals. Ruling that out
+// completely would mean at most one requested Back per session — leaving a dead
+// Back press behind every later close.
+const SETTLE_MS = 1500;
+let backUnreliable = false;
+// The outstanding request, until its SETTLE_MS window closes: when it was made
+// (performance.now() — monotonic, so clock changes can't stretch or skip the
+// window) and whether any popstate has arrived since.
+let pending = null;
+let watchingPops = false;
+
+// Close the outstanding request's window once it has run out. Evaluated at each
+// decision point rather than by a timer, so a busy or throttled main thread
+// can't let a request through, or a late popstate count, before it settles.
+function settle(now) {
+  if (pending && now - pending.at >= SETTLE_MS) {
+    if (!pending.arrived) backUnreliable = true;
+    pending = null;
+  }
+}
+
+function watchPops() {
+  if (watchingPops) return;
+  watchingPops = true;
+  window.addEventListener("popstate", () => {
+    settle(performance.now()); // one arriving after the window doesn't count
+    if (pending) pending.arrived = true;
+  });
+}
+
+// Ask the browser to go back, if the policy allows. Returns whether it asked.
+function requestBack() {
+  const now = performance.now();
+  settle(now);
+  if (backUnreliable || pending) return false;
+  try {
+    window.history.back();
+  } catch {
+    backUnreliable = true;
+    return false;
+  }
+  pending = { at: now, arrived: false };
+  return true;
+}
+
+function enterViewerEntry() {
+  watchPops();
+  const token = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+  const state = window.history.state;
+  if (state && state.pdfViewer) {
+    // Still on an earlier viewer's entry (its close never completed, or React
+    // StrictMode re-ran the effect): reuse it instead of stacking another, so
+    // abandoned entries can never pile up.
+    window.history.replaceState({ ...state, pdfViewer: token }, "");
+  } else {
+    // Keep the router's own state (key/index) on the new entry; add our token.
+    window.history.pushState({ ...(state || {}), pdfViewer: token }, "");
+  }
+  return token;
+}
+
 function PdfOverlay({ href, title, onClose }) {
-  const pushedRef = useRef(false);
   const backRef = useRef(null);
   const closingRef = useRef(false);
   const fallbackTimer = useRef(null);
-
-  // Close through history so the pushed entry is consumed (no orphan back-press).
-  // Only once: a double-tap would otherwise pop a second entry — the app's own
-  // page — before the first popstate arrives, and leave the guideline. If the
-  // browser ignores or throttles the traversal and no popstate ever arrives,
-  // dismiss locally instead of leaving the app latched behind the overlay.
-  const close = () => {
-    if (closingRef.current) return;
-    closingRef.current = true;
-    try {
-      window.history.back();
-    } catch {
-      /* the fallback below still closes the viewer */
-    }
-    fallbackTimer.current = setTimeout(() => onCloseRef.current(), 1500);
-  };
+  // This viewer's history token, or null if no entry could be created.
+  const entryRef = useRef(null);
   // Read through a ref so a parent re-render (a new onClose identity) doesn't
   // re-run the effect below and yank focus back to the Back button.
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
 
+  // Close through history so the viewer's entry is consumed (no orphan
+  // back-press) — once only: a double-tap would otherwise pop a second entry, the
+  // app's own page, and leave the guideline. See the policy above for when the
+  // close stays local instead.
+  const close = () => {
+    if (closingRef.current) return;
+    closingRef.current = true;
+    const ownsEntry =
+      entryRef.current !== null && window.history.state?.pdfViewer === entryRef.current;
+    if (!ownsEntry || !requestBack()) {
+      onCloseRef.current();
+      return;
+    }
+    // Normally popstate arrives within milliseconds and closes the viewer. If it
+    // doesn't, close locally; the policy above decides whether later closes may
+    // still ask.
+    fallbackTimer.current = setTimeout(() => onCloseRef.current(), SETTLE_MS);
+  };
+
   useEffect(() => {
+    // The history entry first, and exception-safe: if the browser refuses
+    // pushState/replaceState, the viewer still opens and closes locally, and the
+    // cleanup below is always returned (the app is never left inert).
+    let token = null;
+    try {
+      token = enterViewerEntry();
+    } catch {
+      token = null;
+    }
+    entryRef.current = token;
+
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
@@ -102,13 +195,11 @@ function PdfOverlay({ href, title, onClose }) {
     appRoot?.setAttribute("inert", "");
     backRef.current?.focus({ preventScroll: true });
 
-    // Push a history entry so the device Back button / swipe-back closes the
-    // viewer instead of leaving the page. (Guarded against StrictMode double-run.)
-    if (!pushedRef.current) {
-      window.history.pushState({ pdfViewer: true }, "");
-      pushedRef.current = true;
-    }
-    const onPop = () => onCloseRef.current();
+    // Close once this viewer's entry is gone — Back, the device back gesture, or
+    // close() above. A traversal that lands on this same entry changes nothing.
+    const onPop = () => {
+      if (token === null || window.history.state?.pdfViewer !== token) onCloseRef.current();
+    };
     const onKey = (e) => {
       if (e.key === "Escape") close();
     };
