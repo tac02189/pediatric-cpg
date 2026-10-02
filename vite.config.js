@@ -35,7 +35,10 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["favicon-16.png", "favicon-32.png", "apple-touch-icon.png"],
+      // The icons and favicons are precached by globPatterns below (every png
+      // but og-image). includeAssets and the default includeManifestIcons would
+      // list each of them a second time.
+      includeManifestIcons: false,
       manifest: {
         name: "Pediatric Clinical Practice Guidelines",
         short_name: "Peds CPG",
