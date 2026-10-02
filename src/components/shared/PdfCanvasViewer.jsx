@@ -1,19 +1,20 @@
 import { useEffect, useRef, useState } from "react";
-// ?worker lets Vite bundle the pdf.js worker correctly; binding it via
-// workerPort is the robust setup. pdf.js v4 renders standard PDFs with just the
+// ?worker lets Vite bundle the pdf.js worker correctly; handing it to pdf.js as
+// a worker port is the robust setup. pdf.js v4 renders standard PDFs with just the
 // worker (no wasm/cmap assets needed for embedded-font PDFs).
 import PdfWorker from "pdfjs-dist/build/pdf.worker.min.mjs?worker";
 import { Icon } from "../../lib/icons.jsx";
 
-// Load pdf.js once and wire up a single reusable worker.
+// Load pdf.js once, with one PDFWorker for the app's lifetime, passed to every
+// getDocument() call. Don't set GlobalWorkerOptions.workerPort instead: pdf.js
+// then destroys that shared worker with each document, and the replacement it
+// builds restarts its message ids, so a reply still owed to a closed viewer can be
+// delivered to the next one. A worker the caller supplies is never destroyed.
 let pdfjsPromise = null;
 function loadPdfjs() {
   if (!pdfjsPromise) {
     pdfjsPromise = import("pdfjs-dist")
-      .then((pdfjs) => {
-        pdfjs.GlobalWorkerOptions.workerPort = new PdfWorker();
-        return pdfjs;
-      })
+      .then((pdfjs) => ({ pdfjs, worker: new pdfjs.PDFWorker({ port: new PdfWorker() }) }))
       .catch((err) => {
         // Never cache a failure: one flaky load would otherwise break the viewer
         // until the app is reloaded. The next open tries again.
@@ -23,6 +24,12 @@ function loadPdfjs() {
   }
   return pdfjsPromise;
 }
+
+// Each close queues its document's teardown here and each load waits for the
+// queue first, so one document's teardown (which, in the worker, also clears
+// caches shared by every document) never overlaps the next one's load. Never
+// rejects: one failed teardown must not block every later viewer.
+let teardown = Promise.resolve();
 
 // Renders a PDF to <canvas> pages. Unlike an <iframe>, this works on every
 // platform — including iOS Safari and standalone PWAs, which refuse to render
@@ -34,7 +41,9 @@ export default function PdfCanvasViewer({ href }) {
   useEffect(() => {
     let cancelled = false;
     let rendered = false;
-    let pdfDoc = null;
+    // The loading task, not the document: destroying the task also stops a
+    // document that is still loading, before there is a document to destroy.
+    let task = null;
     const container = containerRef.current;
 
     // Never strand the user on a spinner — if rendering hasn't started in time,
@@ -46,9 +55,12 @@ export default function PdfCanvasViewer({ href }) {
     (async () => {
       try {
         setStatus("loading");
-        const pdfjs = await loadPdfjs();
-        pdfDoc = await pdfjs.getDocument({ url: href }).promise;
+        const { pdfjs, worker } = await loadPdfjs();
+        await teardown;
         if (cancelled || !container) return;
+        task = pdfjs.getDocument({ url: href, worker });
+        const pdfDoc = await task.promise;
+        if (cancelled) return;
         container.replaceChildren();
 
         const cw = Math.max(container.clientWidth, 240);
@@ -82,19 +94,20 @@ export default function PdfCanvasViewer({ href }) {
           setStatus("ready");
         }
       } catch (e) {
+        // A closed viewer's own teardown cancels its render: expected, and not a
+        // failure worth reporting.
+        if (cancelled) return;
         console.error("PDF render failed", e);
-        if (!cancelled) setStatus("error");
+        setStatus("error");
       }
     })();
 
     return () => {
       cancelled = true;
       clearTimeout(timeout);
-      try {
-        pdfDoc?.destroy();
-      } catch {
-        /* noop */
-      }
+      // Chain, never replace, so a teardown still in flight stays in the queue.
+      // The load above creates no task once cancelled is set, so `task` is final.
+      teardown = teardown.then(() => task?.destroy()).catch(() => {});
     };
   }, [href]);
 
