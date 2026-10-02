@@ -1,8 +1,8 @@
 // Diabetic Ketoacidosis (DKA) Management — University of Missouri Pediatric
 // Service Line CPG (September 2026). Transcribed from dka.pdf. Ships as
-// DRAFT (verified: false) pending physician review. Dosing/criteria copied
-// verbatim, except where the physician decisions below say otherwise; verify
-// against the source PDF.
+// DRAFT (verified: false) pending physician review. Dosing and criteria are
+// transcribed from the PDF, some wording condensed, except where the physician
+// decisions below say otherwise; verify against the source PDF.
 //
 // September 2026 PDF sync: the only content change from the July 2026 edition
 // is the criteria box retitle "Criteria for DKA" → "Criteria for Insulin
@@ -19,13 +19,14 @@
 //  • All three criteria in "Criteria for Insulin Infusion" are required for
 //    DKA. The PDF doesn't say so. Not meeting all three takes the existing
 //    "No" branch, to "Consider alternative diagnoses".
+//  • Potassium: the middle row is K⁺ > 3 to 3.3, so every value falls in
+//    exactly one row. The PDF prints "3.1 – 3.3", which left a K⁺ between 3.0
+//    and 3.1 in neither row.
 //
-// Open — known to the physician, to be fixed later: the potassium table, which
-// is transcribed as printed (wording condensed). Its rows "≤ 3" and "3.1–3.3"
-// leave a K⁺ between 3.0 and 3.1 in neither row. The 3.1–3.3 row reads
-// "additional IV potassium repletion has been administered (PO) or … is being
-// infused (IV)", naming IV and PO at once. Keep verified: false until this is
-// resolved.
+// Flagged to the physician, still as printed (wording condensed): the
+// > 3–3.3 row's insulin column reads "additional IV potassium repletion has
+// been administered (PO) or … is being infused (IV)", naming IV and PO at
+// once. Keep verified: false until a physician has verified this guideline.
 
 export default {
   id: "dka",
@@ -291,7 +292,7 @@ export default {
             "1–2 h after end of K⁺ administration",
           ],
           [
-            "3.1–3.3",
+            "> 3–3.3",
             "May start only if additional IV K⁺ repletion given (PO) or being infused (IV)",
             "NS + KCl 20 mEq/L",
             "PO (preferred): 0.5 mEq/kg (max 20 mEq) oral liquid/powder — OR IV (if not tolerating PO): 0.5 mEq/kg (max 20 mEq) over 2 h; rate 0.25 mEq/kg/hr (max 10 mEq/hr)",
