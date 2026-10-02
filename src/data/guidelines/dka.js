@@ -14,6 +14,8 @@
 //  • HHS: serum osmolality ≥ 320 mOsm/kg everywhere. The PDF's decision box
 //    says "≥ 320", but its footnote e (labs typical of HHS) says "> 320".
 //  • β-hydroxybutyrate ≥ 3 is in mmol/L. The PDF gives no unit.
+//  • "Moderate/large ketones", the alternative to β-hydroxybutyrate, means
+//    urine ketones. The PDF doesn't name the test.
 //  • All three criteria in "Criteria for Insulin Infusion" are required for
 //    DKA. The PDF doesn't say so. Not meeting all three takes the existing
 //    "No" branch, to "Consider alternative diagnoses".
@@ -77,7 +79,7 @@ export default {
       body: [
         "Hyperglycemia ≥ 200 mg/dL",
         "Venous pH < 7.25 and/or bicarb < 15 mmol/L",
-        "β-hydroxybutyrate ≥ 3 mmol/L or moderate/large ketones",
+        "β-hydroxybutyrate ≥ 3 mmol/L or moderate/large urine ketones",
       ],
     },
     bicarbNote: {
