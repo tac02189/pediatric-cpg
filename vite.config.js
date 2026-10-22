@@ -43,7 +43,7 @@ export default defineConfig({
         name: "Pediatric Clinical Practice Guidelines",
         short_name: "Peds CPG",
         description:
-          "University of Missouri Pediatric Service Line clinical practice guidelines as guided, tap-through workflows.",
+          "University of Missouri Children’s Service Line clinical practice guidelines as guided, tap-through workflows.",
         theme_color: "#1a1a1a",
         background_color: "#000000",
         display: "standalone",

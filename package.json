@@ -6,7 +6,7 @@
   "engines": {
     "node": ">=22"
   },
-  "description": "Interactive, mobile-first navigator for University of Missouri Pediatric Service Line Clinical Practice Guidelines.",
+  "description": "Interactive, mobile-first navigator for University of Missouri Children’s Service Line Clinical Practice Guidelines.",
   "scripts": {
     "dev": "vite",
     "test": "node --test \"tests/*.test.js\"",

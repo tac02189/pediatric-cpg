@@ -42,7 +42,7 @@ export default function Header() {
               Pediatric Guidelines
             </span>
             <span className="hidden truncate text-[11px] text-brand-gold sm:block">
-              University of Missouri · Pediatric Service Line
+              University of Missouri · Children’s Service Line
             </span>
           </span>
         </Link>

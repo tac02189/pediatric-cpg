@@ -5,7 +5,7 @@ export default function Footer() {
       <div className="mx-auto max-w-3xl px-4 py-6 text-center">
         <p className="text-xs leading-relaxed text-slate-500">
           A bedside convenience tool transcribed from the official University of Missouri
-          Pediatric Service Line Clinical Practice Guidelines. Always verify against the source
+          Children’s Service Line Clinical Practice Guidelines. Always verify against the source
           document and your clinical judgment. Not a substitute for institutional policy.
         </p>
         <p className="mt-2 text-[11px] text-slate-400">

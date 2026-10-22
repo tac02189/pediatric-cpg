@@ -6,7 +6,7 @@ what a session must not get wrong.
 
 ## What it is
 
-A mobile-first PWA that turns the University of Missouri Pediatric Service Line
+A mobile-first PWA that turns the University of Missouri Children’s Service Line
 CPGs into tap-through workflows with scoring and weight-based dosing. Residents
 use it at the bedside, so treat any change under `src/data/guidelines/` or
 `src/engine/` as a clinical change.

@@ -1,7 +1,7 @@
 # Pediatric Clinical Practice Guidelines
 
 A mobile-first, installable (PWA) navigator that turns the University of Missouri
-Pediatric Service Line Clinical Practice Guidelines into guided, tap-through
+Children’s Service Line Clinical Practice Guidelines into guided, tap-through
 interactive workflows with built-in scoring and weight-based dosing calculators.
 The official source PDF is always one tap away.
 
