@@ -1,21 +1,36 @@
-// Asthma Management — University of Missouri Pediatric Service Line CPG
-// (September 2026). Transcribed from asthma.pdf. Newly added — ships as DRAFT
-// (verified: false) pending physician review. Doses/scores copied verbatim;
-// verify against the source PDF.
+// Asthma Management — University of Missouri Children's Service Line CPG
+// (October 2026). Transcribed from asthma.pdf. Ships as DRAFT (verified:
+// false) pending physician review. Doses/scores copied verbatim, except where
+// the physician decision at Q2_ALBUTEROL says otherwise; verify against the
+// source PDF.
+//
+// October 2026 PDF sync, from the September 2026 edition. Every content change
+// is on page 2:
+//  • The severe/critical column headers read "≥ 8", were "> 8", so a score of
+//    exactly 8 is severe on both pages (page 3 bands severe as "8 - 11").
+//  • "Consider admission criteria" in the 3rd-score mild column carries
+//    superscript e, the admission-criteria footnote. It carried d, the HHFNC
+//    footnote, which this file had already read as a typo for e.
+//  • q2 albuterol reads "≥20kg: 5mg", was ">20kg: 5mg". Page 3's two q2
+//    boxes still print ">20kg" (see Q2_ALBUTEROL).
+// Otherwise only the Last Edited date and the service line's name changed
+// ("Children's", was "Pediatric"). Page layouts and arrows are unchanged.
 //
 // Source layout: a timed grid (initial / 1 h / 2 h scores) with a mild–moderate
 // arm (PDF page 2) and a severe–critical arm (PDF page 3). Both arms are kept
 // as separate node chains because the same score band carries different
 // instructions depending on which arm the patient entered on.
 //
-// Transcription notes for the physician audit (also flagged in chat):
-//  • Page 2's column header prints "> 8 (Severe/Critical)" while page 3 bands
-//    severe as "8 - 11" — so a score of exactly 8 is treated as severe here.
-//  • Page 2, 3rd-score mild column prints "Consider admission criteria" with
-//    superscript d (the HHFNC footnote). The admission criteria are footnote e;
-//    this file references e, treating the printed d as a source marker typo.
+// Open questions for the physician audit, all unchanged in the October edition:
 //  • Mag sulfate, IVF bolus, and IV methylprednisolone carry no doses anywhere
 //    in the PDF, so they appear as text only — no calculator entries.
+//  • Page 3's "< 8 (Mild/Moderate)" column at 1 hour only gives instructions
+//    for scores 4–5 and 6–7, so p3mild1 offers nothing specific for 0–3.
+//  • PRAS respiratory-rate rows "2 to 12 months" and "1 to 5 years" overlap
+//    at exactly 12 months.
+//  • Critical at 1 hour ends at "Admit to PICU" (crit1), though the 2-hour
+//    critical column has its own steps (crit2).
+//  • Reference 4's link is a local file path in the PDF, so it is left out.
 
 // Reusable drug definitions (composed into the calculators below).
 
@@ -99,18 +114,19 @@ const Q2_ALBUTEROL = {
   route: "Nebulized",
   rules: [
     {
-      // PDF prints "<20kg: 2.5mg" / ">20kg: 5mg", leaving exactly 20 kg
-      // unassigned. Assigned here to the LOWER band — the conservative
-      // reading, consistent with the CPG's own inclusive "10 - 20kg" bands
-      // for continuous albuterol and MDI puffs. Raised by both 2026-09-28
-      // peer reviews; pending an explicit physician decision.
-      when: (c) => typeof c.weightKg === "number" && c.weightKg <= 20,
-      label: "≤ 20 kg",
+      // < 20 kg / ≥ 20 kg on every q2 step, by physician decision (Thiago
+      // DeSouza, 2026-10-22). The October 2026 PDF's page 2 prints "<20kg:
+      // 2.5mg / ≥20kg: 5mg". Page 3's two q2 boxes still print "<20kg /
+      // >20kg", leaving exactly 20 kg in neither band, so they follow page 2.
+      // (Until this edition the app gave 2.5 mg at 20 kg.) The continuous
+      // albuterol and MDI bands are unchanged: "10 - 20kg" still includes 20.
+      when: (c) => typeof c.weightKg === "number" && c.weightKg < 20,
+      label: "< 20 kg",
       dose: { flatMg: 2.5 },
     },
     {
-      when: (c) => typeof c.weightKg === "number" && c.weightKg > 20,
-      label: "> 20 kg",
+      when: (c) => typeof c.weightKg === "number" && c.weightKg >= 20,
+      label: "≥ 20 kg",
       dose: { flatMg: 5 },
     },
   ],
@@ -148,7 +164,7 @@ export default {
   shortDescription: "PRAS-driven timed pathway (0–1–2 h) for acute asthma — bronchodilators, steroids, escalation, disposition.",
   sourcePdf: "asthma.pdf",
   version: "2026",
-  lastEdited: "September 2026",
+  lastEdited: "October 2026",
   authors: [
     "MB Bernardin",
     "L Herbig",
@@ -255,8 +271,8 @@ export default {
       bands: [
         { id: "mild", label: "Mild", max: 3, tone: "success" },
         { id: "moderate", label: "Moderate", min: 4, max: 7, tone: "warning" },
-        // Page 2 prints the top column as "> 8 (Severe/Critical)", but page 3
-        // bands severe as 8–11 — a score of exactly 8 is severe.
+        // Page 2 heads the top column "≥ 8 (Severe/Critical)" and page 3 bands
+        // severe as 8–11, so a score of exactly 8 is severe.
         { id: "severe", label: "Severe", min: 8, max: 11, tone: "danger" },
         { id: "critical", label: "Critical", min: 12, tone: "danger" },
       ],
@@ -469,8 +485,6 @@ export default {
       id: "mild2",
       type: "decision",
       title: "Mild (0–3) at 2 hours — disposition",
-      // The PDF prints superscript d after "admission criteria"; the admission
-      // criteria are footnote e (apparent source marker typo — flagged).
       body: "Consider admission criteria vs discharge home.",
       calloutIds: ["admissionCriteria"],
       footnoteRefs: ["e"],

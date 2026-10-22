@@ -150,15 +150,29 @@ describe("weight entry", () => {
   });
 
   it("puts a pound weight in the band matching the kg shown (the 20 kg edge)", () => {
-    const q2 = {
-      name: "q2",
+    // Asthma has both kinds of 20 kg edge: continuous albuterol's "10–20 kg"
+    // band ends at 20, and the q2 neb's "≥ 20 kg" band starts at it. These
+    // mirror the two drugs' tiers; each pair of entries is 0.01 lb apart.
+    const endsAt20 = {
+      name: "continuous",
       rules: [
-        { when: (c) => typeof c.weightKg === "number" && c.weightKg <= 20, label: "≤ 20 kg", dose: { flatMg: 2.5 } },
-        { when: (c) => typeof c.weightKg === "number" && c.weightKg > 20, label: "> 20 kg", dose: { flatMg: 5 } },
+        { when: (c) => typeof c.weightKg === "number" && c.weightKg < 10, label: "< 10 kg", dose: { flatMg: 10 } },
+        { when: (c) => typeof c.weightKg === "number" && c.weightKg <= 20, label: "10–20 kg", dose: { flatMg: 15 } },
+        { when: (c) => typeof c.weightKg === "number" && c.weightKg > 20, label: "> 20 kg", dose: { flatMg: 20 } },
       ],
     };
-    assert.equal(D.computeDrug(q2, { weightKg: D.entryToKg("44.1", "lb") }).ruleLabel, "≤ 20 kg");
-    assert.equal(D.computeDrug(q2, { weightKg: D.entryToKg("44.2", "lb") }).ruleLabel, "> 20 kg");
+    const startsAt20 = {
+      name: "q2",
+      rules: [
+        { when: (c) => typeof c.weightKg === "number" && c.weightKg < 20, label: "< 20 kg", dose: { flatMg: 2.5 } },
+        { when: (c) => typeof c.weightKg === "number" && c.weightKg >= 20, label: "≥ 20 kg", dose: { flatMg: 5 } },
+      ],
+    };
+    const band = (drug, lb) => D.computeDrug(drug, { weightKg: D.entryToKg(lb, "lb") }).ruleLabel;
+    assert.equal(band(endsAt20, "44.1"), "10–20 kg", "20.0034 kg shows as 20 kg, so it doses as 20");
+    assert.equal(band(endsAt20, "44.11"), "> 20 kg", "20.0080 kg shows as 20.01 kg");
+    assert.equal(band(startsAt20, "44.08"), "< 20 kg", "19.9944 kg shows as 19.99 kg");
+    assert.equal(band(startsAt20, "44.09"), "≥ 20 kg", "19.9989 kg shows as 20 kg, so it doses as 20");
   });
 
   it("accepts exactly the pound range it shows (1.1–330.7 lb, signed off 2026-10-01)", () => {

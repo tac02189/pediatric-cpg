@@ -1,19 +1,28 @@
-// Diabetic Ketoacidosis (DKA) Management — University of Missouri Pediatric
-// Service Line CPG (September 2026). Transcribed from dka.pdf. Ships as
+// Diabetic Ketoacidosis (DKA) Management — University of Missouri Children's
+// Service Line CPG (October 2026). Transcribed from dka.pdf. Ships as
 // DRAFT (verified: false) pending physician review. Dosing and criteria are
 // transcribed from the PDF, some wording condensed, except where the physician
 // decisions below say otherwise; verify against the source PDF.
+//
+// October 2026 PDF sync: the PDF now prints the first two physician decisions
+// below (β-hydroxybutyrate in mmol/L; serum osmolality ≥ 320 in footnote e).
+// Otherwise only the Last Edited date and the service line's name changed
+// ("Children's", was "Pediatric"). Page 1's criteria box was widened to fit
+// the longer line and the boxes beside it moved over; the arrows join the
+// same boxes as before.
 //
 // September 2026 PDF sync: the only content change from the July 2026 edition
 // is the criteria box retitle "Criteria for DKA" → "Criteria for Insulin
 // Infusion" (criteria list itself unchanged), plus the Last Edited date.
 //
-// Physician decisions (Thiago DeSouza, 2026-10-02) where the PDF is ambiguous
-// or inconsistent. They deliberately differ from the PDF: keep them through
+// Physician decisions (Thiago DeSouza, 2026-10-02) where the PDF was ambiguous
+// or inconsistent. Since the October 2026 edition the PDF prints the first two
+// itself. The other three deliberately differ from the PDF: keep them through
 // future PDF syncs.
-//  • HHS: serum osmolality ≥ 320 mOsm/kg everywhere. The PDF's decision box
-//    says "≥ 320", but its footnote e (labs typical of HHS) says "> 320".
-//  • β-hydroxybutyrate ≥ 3 is in mmol/L. The PDF gives no unit.
+//  • HHS: serum osmolality ≥ 320 mOsm/kg everywhere. Until October the PDF's
+//    decision box said "≥ 320" but its footnote e (labs typical of HHS) said
+//    "> 320"; both now say "≥ 320".
+//  • β-hydroxybutyrate ≥ 3 is in mmol/L. Until October the PDF gave no unit.
 //  • "Moderate/large ketones", the alternative to β-hydroxybutyrate, means
 //    urine ketones. The PDF doesn't name the test.
 //  • All three criteria in "Criteria for Insulin Infusion" are required for
@@ -52,7 +61,7 @@ export default {
   shortDescription: "Phased management of pediatric DKA — fluids, insulin 2-bag system, K⁺, and cerebral-edema care.",
   sourcePdf: "dka.pdf",
   version: "2026",
-  lastEdited: "September 2026",
+  lastEdited: "October 2026",
   authors: [
     "MB Bernardin",
     "S Kattikat",

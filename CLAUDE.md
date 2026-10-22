@@ -25,9 +25,10 @@ use it at the bedside, so treat any change under `src/data/guidelines/` or
   doses, thresholds and wording are transcribed from its PDF in `public/pdfs/`.
   The originals at the folder root are gitignored.
 - A guideline ships as a DRAFT (`verified: false`) until a physician has checked
-  it against the PDF. As of 2026-10-02, DKA and Asthma are drafts, and each lists
-  its open questions at the top of its data file. `dka.js` also records the
-  physician decisions where it deliberately differs from its PDF; keep those
+  it against the PDF. As of 2026-10-22 (October 2026 PDFs), DKA and Asthma are
+  drafts, and each lists its open questions at the top of its data file. Both
+  also record the physician decisions where they deliberately differ from their
+  PDFs (`dka.js` in its header, `asthma.js` at `Q2_ALBUTEROL`); keep those
   through any PDF sync.
 - Never change a dose, cutoff, band or branch without the source in hand. Neither
   the tests nor a peer review can confirm a clinical value; flag it for a human
