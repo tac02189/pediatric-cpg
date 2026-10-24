@@ -37,6 +37,14 @@
 // repletion has been administered (PO) or … is being infused (IV)", naming IV
 // and PO at once. Keep verified: false until a physician has verified this
 // guideline.
+//
+// Line-by-line audit against the October PDF, 2026-10-23 (Claude, with an
+// independent Codex pass): no number, unit, cutoff, dose or branch differs.
+// The 16 small wording differences it found (dropped qualifiers such as "if
+// appropriate", an added "IV" or "mg/dL", "Start" where the PDF says "Order"
+// insulin) and the three reference links not carried over were reviewed by
+// Thiago DeSouza, who kept the app's wording as is (2026-10-23). Don't re-word
+// them toward the PDF in a later sync without asking.
 
 export default {
   id: "dka",
