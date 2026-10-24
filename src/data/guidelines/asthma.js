@@ -21,6 +21,19 @@
 // as separate node chains because the same score band carries different
 // instructions depending on which arm the patient entered on.
 //
+// Line-by-line audit against the October PDF, 2026-10-23 (Claude, with an
+// independent Codex pass): every PRAS cell and band and every printed weight
+// band and dose matched, apart from the deliberate q2 rule at Q2_ALBUTEROL,
+// and every drawn arrow is followed ("Page 3" entry is an open question
+// below). Fixed on 2026-10-24: the steroid entry is named "Prednisolone", the
+// drug footnote c gives the 1–2 mg/kg/day course for (the steps still say
+// "oral prednisone/prednisolone", as the PDF does); the critical card says
+// "consider" IM epinephrine; "given over 1 hour" shows only where the PDF
+// prints it; footnote g keeps its "If referring to Pediatric Pulmonology"
+// heading; the dexamethasone note keeps "over prednisolone". Kept on purpose:
+// footnote d on every continuous-albuterol step, and the weight bands on
+// page 3's "< 8" continuous steps, whose boxes print none.
+//
 // Open questions for the physician audit, all unchanged in the October edition:
 //  • Mag sulfate, IVF bolus, and IV methylprednisolone carry no doses anywhere
 //    in the PDF, so they appear as text only — no calculator entries.
@@ -30,6 +43,15 @@
 //    at exactly 12 months.
 //  • Critical at 1 hour ends at "Admit to PICU" (crit1), though the 2-hour
 //    critical column has its own steps (crit2).
+//  • Page 2's "Page 3" boxes (at 0, 1 and 2 hours) don't say which page-3 row
+//    to enter. The app enters at the same hour, so a child who reaches 8+ at
+//    1 hour on page 2 goes to sev1/crit1, not to page 3's initial box.
+//  • Response and score are tied together at 1 hour. Page 2 (moderate) offers
+//    improving with 4–5 or not improving with 6–7, so improving at 6–7 or not
+//    improving at 4–5 matches neither. Page 3 ("< 8") offers continuous
+//    albuterol for 6–7 or d/c when improving at 4–5, so 4–5 without
+//    improvement matches neither.
+//  • Age exactly 18 is neither included ("< 18") nor excluded ("> 18").
 //  • Reference 4's link is a local file path in the PDF, so it is left out.
 
 // Reusable drug definitions (composed into the calculators below).
@@ -40,11 +62,13 @@ const DEXAMETHASONE = {
   // Footnote c gives a range with no max cap, so this stays display-only —
   // no per-kg computation that could extrapolate past the PDF.
   displayDose: "0.3–0.6 mg/kg — 1–2 doses (36–72 h course)",
-  note: "Generally preferred for pediatric ED asthma exacerbations — better compliance, less vomiting, similar efficacy (footnote c).",
+  note: "Generally preferred over prednisolone for pediatric ED asthma exacerbations — better compliance, less vomiting, similar efficacy (footnote c).",
 };
 
 const PREDNISOLONE = {
-  name: "Prednisolone / prednisone",
+  // Footnote c gives this dose and course for prednisolone only. The steps
+  // still say "oral prednisone/prednisolone", as the PDF's boxes do.
+  name: "Prednisolone",
   route: "PO",
   displayDose: "1–2 mg/kg/day (3–5 day course)",
   note: "Preferred by MU Pediatric Pulmonology for pulmonology patients, particularly those requiring admission (footnote c).",
@@ -82,7 +106,10 @@ const ALBUTEROL_IPRATROPIUM_MDI = {
 
 const CONTINUOUS_ALBUTEROL = {
   name: "Albuterol — continuous nebulization",
-  route: "Nebulized, given over 1 hour",
+  // The PDF says "given over 1 hour" only at moderate 1 h and the two 0-hour
+  // boxes, and those steps say it in their own text, so the shared route
+  // doesn't repeat it at every later step.
+  route: "Nebulized",
   note: "May be administered via HHFNC; d/c HHFNC when continuous albuterol finishes, if tolerated (footnote d).",
   rules: [
     {
@@ -172,7 +199,7 @@ export default {
     "C Dyer",
     "M Hayes",
     "K Cutler",
-    "D Lopez-Domowicz",
+    "D Lopez Domowicz",
     "R Kapoor",
     "R Nevel",
     "J Acton",
@@ -310,7 +337,7 @@ export default {
     criticalInitialMeds: {
       kind: "dosing",
       id: "criticalInitialMeds",
-      name: "Continuous albuterol + ipratropium + IM epinephrine",
+      name: "Continuous albuterol + ipratropium; consider IM epinephrine",
       drugs: [CONTINUOUS_ALBUTEROL, IPRATROPIUM_WITH_CONTINUOUS, IM_EPINEPHRINE],
     },
     contAlbuterol: {
@@ -352,8 +379,8 @@ export default {
     f: "IM epinephrine [0.01 mg/kg (0.01 mL/kg of 1:1000 solution [1 mg/mL]) every 20 minutes for up to three doses, max dose 0.5 mg] can be considered as an adjunct therapy for severe status asthmaticus.",
     g: [
       "Follow-up instructions: recommend and/or schedule follow up with PCP within 1–3 days.",
-      "If referring to Pediatric Pulmonology with an Ambulatory Referral order: place the referral to Pediatric Pulmonary (it goes to Lisa Hunter, Pulmonary Patient Navigator); if the patient needs to be seen in the next 1–2 weeks due to severity of their asthma, also send a PowerChart message to Pediatric Pulmonary on call; add brief reasoning for the referral in the comment section for appropriate triage.",
-      "If placing a Follow Up Child Health order: send a PowerChart message to Lisa Hunter for scheduling; if the patient needs to be seen within 1–2 weeks, also CC the message to Pediatric Pulmonary on call.",
+      "If referring to Pediatric Pulmonology for follow up with an Ambulatory Referral order: place the referral to Pediatric Pulmonary (it goes to Lisa Hunter, Pulmonary Patient Navigator); if the patient needs to be seen in the next 1–2 weeks due to severity of their asthma, also send a PowerChart message to Pediatric Pulmonary on call; add brief reasoning for the referral in the comment section for appropriate triage.",
+      "If referring to Pediatric Pulmonology for follow up with a Follow Up Child Health order: send a PowerChart message to Lisa Hunter for scheduling; if the patient needs to be seen within 1–2 weeks, also CC the message to Pediatric Pulmonary on call.",
     ],
     h: "ED return precautions: increasing respiratory distress or hypoxemia despite scheduled bronchodilator [+/- PRN combined inhaled corticosteroid/long-acting beta agonist inhaler], inability to tolerate q4 hour bronchodilator, inability to maintain oral hydration.",
   },
