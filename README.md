@@ -21,7 +21,7 @@ npm run build      # production build into dist/ (runs the tests and the PDF che
 npm run preview    # serve the production build locally
 ```
 
-## Architecture — one engine, 18 data files
+## Architecture — one engine, 19 data files
 
 The app is a generic **workflow engine** that walks a graph of nodes defined in
 plain data. Adding or editing a guideline is a **data-only** change — no React.
