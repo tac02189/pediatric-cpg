@@ -31,8 +31,10 @@ use it at the bedside, so treat any change under `src/data/guidelines/` or
   PDFs (`dka.js` in its header, `asthma.js` at `Q2_ALBUTEROL`); keep those
   through any PDF sync. Both were audited line by line against those PDFs on
   2026-10-23, and each header says what the audit found and what was kept.
-  Bloody Diarrhea (November 2026 PDF, added 2026-11-08) is also a draft; its
-  header lists its transcription choices and open questions.
+  Bloody Diarrhea (November 2026 PDF, added 2026-11-08) is also a draft. Its
+  header lists its transcription choices, its open questions and the physician
+  decisions of 2026-11-08, which confirm the PDF as printed rather than depart
+  from it.
 - Never change a dose, cutoff, band or branch without the source in hand. Neither
   the tests nor a peer review can confirm a clinical value; flag it for a human
   (root `CLAUDE.md`, Codex rules).

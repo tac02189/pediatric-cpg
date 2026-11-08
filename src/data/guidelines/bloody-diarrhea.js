@@ -31,28 +31,30 @@
 //    reading Gemini raised); the physician can narrow it to the admit step.
 //  • The "**" opening the post-discharge +STEC instruction has no matching
 //    note; read as emphasis (a warning callout on the discharge step).
-//  • Footnote d iii ("increase in Cr by 50% or 0.2 mg/dL or more from
-//    previous baseline") and ii ("platelets < 150k", no unit) are verbatim.
 //
-// Open questions for the physician audit:
-//  • Each footnote d finding alone routes to admission. Confirm the triggers
-//    as printed, above all "> 5% decrease in platelet count since onset of
-//    symptoms", the creatinine rise in iii and the unitless "< 150k". In
-//    review, Gemini raised two concerns, neither verified here: that platelet
-//    counts can vary by about 5% between draws, so the 5% may be a typo; and
-//    that a 0.2 mg/dL creatinine rise is more sensitive than KDIGO stage 1's
-//    0.3 mg/dL. The 5% matches MU's own source: reference 2 (Seattle
-//    Children's HUS Risk – Bloody Diarrhea v2.0, November 2024) prints the
-//    same "> 5% decrease in platelet count since onset of symptoms" and
-//    "platelet < 150k" (checked 2026-11-08). Whether 5% is meant is still a
-//    clinical question.
+// Physician decisions (Thiago, 2026-11-08). Both keep the PDF as printed, so
+// they are not deviations to carry through a PDF sync: if a later edition
+// changes either, follow the new PDF. If a later review flags either again,
+// relay it verbatim and note that he confirmed the PDF as printed on this date.
+//  • Footnote d is confirmed as printed. Each finding alone routes to
+//    admission, including "> 5% decrease in platelet count since onset of
+//    symptoms", ii's "platelets < 150k" (no unit) and iii's "increase in Cr
+//    by 50% or 0.2 mg/dL or more from previous baseline". Review had raised
+//    two concerns (Gemini; neither verified here): that platelet counts can
+//    vary by about 5% between draws, so the 5% may be a typo; and that a
+//    0.2 mg/dL creatinine rise is more sensitive than KDIGO stage 1's
+//    0.3 mg/dL. Reference 2 (Seattle Children's HUS Risk – Bloody Diarrhea
+//    v2.0, November 2024) prints the same "> 5% decrease in platelet count
+//    since onset of symptoms" and "platelet < 150k" (checked 2026-11-08).
+//  • Both +STEC timings stay as printed. Risk factor vii (presentation
+//    within 7 days if GI PCR +STEC) needs a GI PCR result, which may not be
+//    back in the ED. The discharge box's instruction for a result that turns
+//    +STEC after discharge (direct admission) carries no 7-day limit.
+//
+// Open questions:
 //  • The admit box says "inpatient pediatric service vs PICU" but the PDF
-//    gives no criteria for choosing PICU.
-//  • Risk factor vii (presentation within 7 days if GI PCR +STEC) needs a GI
-//    PCR result, which may not be back in the ED. The discharge box's
-//    instruction for a result that turns +STEC after discharge (direct
-//    admission) carries no 7-day limit. Is the difference in timing
-//    intended? Both are transcribed as printed.
+//    gives no criteria for choosing PICU. Thiago is taking this to the CPG's
+//    authors (2026-11-08).
 //  • No maximum NS bolus volume and no maintenance-rate formula (see above).
 
 export default {
