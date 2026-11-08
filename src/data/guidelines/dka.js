@@ -1,8 +1,17 @@
 // Diabetic Ketoacidosis (DKA) Management — University of Missouri Children's
-// Service Line CPG (October 2026). Transcribed from dka.pdf. Ships as
-// DRAFT (verified: false) pending physician review. Dosing and criteria are
-// transcribed from the PDF, some wording condensed, except where the physician
-// decisions below say otherwise; verify against the source PDF.
+// Service Line CPG (October 2026, re-issued November 2026). Transcribed from
+// dka.pdf. Ships as DRAFT (verified: false) pending physician review. Dosing
+// and criteria are transcribed from the PDF, some wording condensed, except
+// where the physician decisions below say otherwise; verify against the
+// source PDF.
+//
+// November 2026 PDF re-issue (file created 2026-11-05, still printed "Last
+// Edited: October 2026"): the only content change is page 2's Monitoring box.
+// The q2h labs are now "BMP, VBG" (were serum glucose, VBG, Na, K, Cl and
+// HCO₃ by i-STAT), and the q4h labs are now serum iCa, phosphorus and urine
+// dipstick (BMP moved from q4h to q2h). Pages 1, 3 and 4 render pixel for
+// pixel the same as the October edition, and page 2 differs only in those two
+// lines, so the 2026-10-23 audit below still holds outside that box.
 //
 // October 2026 PDF sync: the PDF now prints the first two physician decisions
 // below (β-hydroxybutyrate in mmol/L; serum osmolality ≥ 320 in footnote e).
@@ -359,8 +368,8 @@ export default {
       items: [
         "Vital signs + neuro checks q1h",
         "POC glucose q1h (serum glucose if POC glucose > 600)",
-        "Serum glucose, VBG, Na, K, Cl, HCO₃ (i-STAT) q2h",
-        "BMP, serum iCa, phosphorus, urine dipstick q4h",
+        "BMP, VBG q2h",
+        "Serum iCa, phosphorus, urine dipstick q4h",
       ],
       next: "cerebralEdema",
     },
