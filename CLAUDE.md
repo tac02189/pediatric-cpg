@@ -33,7 +33,9 @@ use it at the bedside, so treat any change under `src/data/guidelines/` or
   2026-10-23, and each header says what the audit found and what was kept.
   Bloody Diarrhea (November 2026 PDF, added 2026-11-08) is also a draft. Its
   header lists its transcription choices, its open questions and the physician
-  decisions of 2026-11-08 and 2026-11-09, none of which departs from the PDF.
+  decisions of 2026-11-08 and 2026-11-09. One of those differs from the PDF
+  ("septic shock" for its typo "sepsit shock"); keep it through any PDF sync
+  that still prints the typo.
 - Never change a dose, cutoff, band or branch without the source in hand. Neither
   the tests nor a peer review can confirm a clinical value; flag it for a human
   (root `CLAUDE.md`, Codex rules).

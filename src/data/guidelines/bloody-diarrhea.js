@@ -18,20 +18,21 @@
 // enlarged crop of it (and confirmed by Codex from the same images).
 //
 // Transcription choices, for the physician audit:
-//  • Footnote a ends "severe sepsis and/or sepsit shock"; read as "septic
-//    shock". Footnote a is the start box's exclusion criteria, so the start
-//    step shows it as its exclusion list and doesn't repeat it as a footnote;
-//    it stays in References & notes.
+//  • Footnote a is the start box's exclusion criteria, so the start step
+//    shows it as its exclusion list and doesn't repeat it as a footnote; it
+//    stays in References & notes.
 //  • Footnote b is printed on "GI PCR" in the labs line and c on the NS bolus
 //    line; both show under the initial-evaluation step.
 //  • The "**" opening the post-discharge +STEC instruction has no matching
 //    note; read as emphasis (a warning callout on the discharge step).
 //
-// Physician decisions (Thiago; the first two on 2026-11-08, the third on
-// 2026-11-09). None departs from the PDF, so none is a deviation to carry
-// through a PDF sync: if a later edition changes one, follow the new PDF. If
-// a later review flags one again, relay it verbatim and note what he
-// confirmed, and when.
+// Physician decisions (Thiago; the first two on 2026-11-08, the last two on
+// 2026-11-09). The first three don't depart from the PDF, so they are not
+// deviations to carry through a PDF sync: if a later edition changes one,
+// follow the new PDF. The fourth corrects a typo in the PDF: keep that
+// correction through any PDF sync while the typo remains. If a later review
+// flags a decision again, relay it verbatim and note what he confirmed, and
+// when.
 //  • Footnote d is confirmed as printed. Each finding alone routes to
 //    admission, including "> 5% decrease in platelet count since onset of
 //    symptoms", ii's "platelets < 150k" (no unit) and iii's "increase in Cr
@@ -51,6 +52,10 @@
 //    matching "^" anywhere else on the page and no arrow. It sits just below
 //    the admit box, so the "^" could instead point up at that box (a reading
 //    Gemini raised); he chose every step.
+//  • "Septic shock", correcting the PDF's typo. Footnote a ends "severe
+//    sepsis and/or sepsit shock"; the app says "septic shock" in the
+//    exclusion list and in footnote a. Keep "septic" even if a later edition
+//    still prints "sepsit".
 //
 // Open questions:
 //  • The admit box says "inpatient pediatric service vs PICU" but the PDF
