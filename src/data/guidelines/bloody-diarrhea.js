@@ -24,18 +24,14 @@
 //    it stays in References & notes.
 //  • Footnote b is printed on "GI PCR" in the labs line and c on the NS bolus
 //    line; both show under the initial-evaluation step.
-//  • The "^Consult pediatric nephrology to discuss at any point if questions"
-//    box has no matching "^" anywhere else on the page and no arrow. Since it
-//    applies "at any point", it is a callout on every step. It sits just
-//    below the admit box, so the "^" could instead point up at that box (a
-//    reading Gemini raised); the physician can narrow it to the admit step.
 //  • The "**" opening the post-discharge +STEC instruction has no matching
 //    note; read as emphasis (a warning callout on the discharge step).
 //
-// Physician decisions (Thiago, 2026-11-08). Both keep the PDF as printed, so
-// they are not deviations to carry through a PDF sync: if a later edition
-// changes either, follow the new PDF. If a later review flags either again,
-// relay it verbatim and note that he confirmed the PDF as printed on this date.
+// Physician decisions (Thiago; the first two on 2026-11-08, the third on
+// 2026-11-09). None departs from the PDF, so none is a deviation to carry
+// through a PDF sync: if a later edition changes one, follow the new PDF. If
+// a later review flags one again, relay it verbatim and note what he
+// confirmed, and when.
 //  • Footnote d is confirmed as printed. Each finding alone routes to
 //    admission, including "> 5% decrease in platelet count since onset of
 //    symptoms", ii's "platelets < 150k" (no unit) and iii's "increase in Cr
@@ -50,6 +46,11 @@
 //    within 7 days if GI PCR +STEC) needs a GI PCR result, which may not be
 //    back in the ED. The discharge box's instruction for a result that turns
 //    +STEC after discharge (direct admission) carries no 7-day limit.
+//  • The nephrology note stays a callout on every step. The "^Consult
+//    pediatric nephrology to discuss at any point if questions" box has no
+//    matching "^" anywhere else on the page and no arrow. It sits just below
+//    the admit box, so the "^" could instead point up at that box (a reading
+//    Gemini raised); he chose every step.
 //
 // Open questions:
 //  • The admit box says "inpatient pediatric service vs PICU" but the PDF
