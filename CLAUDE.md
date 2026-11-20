@@ -38,7 +38,7 @@ use it at the bedside, so treat any change under `src/data/guidelines/` or
   that still prints the typo.
 - Never change a dose, cutoff, band or branch without the source in hand. Neither
   the tests nor a peer review can confirm a clinical value; flag it for a human
-  (root `CLAUDE.md`, Codex rules).
+  (root `CLAUDE.md`, *Clinical content*).
 - `npm test` must pass before a commit, and the build refuses to run while it
   fails. Validator warnings don't fail it. Some, such as "weight-based drug
   without a max cap", can be faithful to the PDF, so never invent a value to
@@ -102,6 +102,6 @@ use it at the bedside, so treat any change under `src/data/guidelines/` or
   internally consistent and still wrong.
 - CI (`.github/workflows/ci.yml`) runs `npm ci` and `npm run build` on pushes to
   `main` and on pull requests. It never deploys.
-- UI behaviour has no automated tests, so verify it in the preview. React
+- UI behavior has no automated tests, so verify it in the preview. React
   StrictMode is on, so effects run twice in dev; the PDF viewer reuses its
   history entry for exactly that reason.
